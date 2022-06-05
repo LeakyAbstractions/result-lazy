@@ -1,0 +1,122 @@
+
+# Continuous Integration
+name: Build
+
+on:
+  push:
+    branches:
+    - '*'
+  pull_request:
+    branches:
+    - main
+    - develop
+
+env:
+  GRADLE_OPTS: '-Dorg.gradle.daemon=false'
+
+jobs:
+  build:
+
+    name: Build on JDK${{ matrix.jdk }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        jdk: [ 8, 11, 17 ]
+
+    steps:
+
+    # ================================
+    # CHECKOUT
+    # ================================
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    # ================================
+    # SET UP JDK
+    # ================================
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'zulu'
+        java-package: jdk
+        java-version: ${{ matrix.jdk }}
+
+    # ================================
+    # CACHE SONARCLOUD PACKAGES
+    # ================================
+    - name: Cache SonarCloud packages
+      uses: actions/cache@v2
+      with:
+        key: ${{ runner.os }}-sonar
+        path: |
+          ~/.sonar/cache
+        restore-keys: |
+          ${{ runner.os }}-sonar
+
+    # ================================
+    # CACHE GRADLE PACKAGES
+    # ================================
+    - name: Cache Gradle packages
+      uses: actions/cache@v2
+      with:
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    # ================================
+    # GOOGLE JAVA FORMAT WORKAROUND
+    # ================================
+    - name: Set Gradle properties on JDK16+
+      if: ${{ matrix.jdk >= 16 }}
+      shell: bash
+      run: cat google-java-format.properties >> gradle.properties
+
+    # ================================
+    # BUILD
+    # ================================
+    - name: Build
+      run: ./gradlew build --info
+
+    # ================================
+    # JAVADOC
+    # ================================
+    - name: Javadoc
+      run: ./gradlew javadoc --info
+
+    # ================================
+    # UPLOAD JAVADOC
+    # ================================
+    - name: Upload Javadoc files
+      uses: actions/upload-artifact@v2
+      with:
+        name: javadoc
+        path: lib-lazy/build/docs/javadoc/
+
+    # ================================
+    # TEST
+    # ================================
+    - name: Test
+      run: ./gradlew test --info
+
+    # ================================
+    # CODE COVERAGE
+    # ================================
+    - name: Code Coverage
+      run: ./gradlew jacocoTestReport jacocoTestCoverageVerification --info
+
+    # ================================
+    # ANALYZE
+    # ================================
+    - name: Analyze
+      if: ${{ matrix.jdk == 17 }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: https://sonarcloud.io
+        SONAR_ORGANIZATION: leakyabstractions
+      run: ./gradlew :lib-lazy:sonarqube --info
