@@ -1,0 +1,54 @@
+
+plugins {
+    id 'com.diffplug.spotless' version '6.7.2' apply false
+    id 'org.sonarqube' version '3.4.0.2513' apply false
+    id 'io.github.gradle-nexus.publish-plugin' version '1.1.0'
+}
+
+// Configure Gradle Nexus Publish Plugin publishing repository
+nexusPublishing {
+    repositories {
+        sonatype {
+            username = System.env.SONATYPE_USERNAME
+            password = System.env.SONATYPE_PASSWORD
+        }
+    }
+}
+
+/**
+ * Print project property by key
+ * - Usage: `./gradlew -q printProperty -Pkey=description`
+ */
+task printProperty {
+    doLast {
+        printf project[project.key]
+    }
+}
+
+ext.libs = [
+    'result': [
+        'group': 'com.leakyabstractions',
+        'name': 'result',
+        'version': '0.10.0.0'
+    ],
+    'result_assertj': [
+            'group': 'com.leakyabstractions',
+            'name': 'result-assertj',
+            'version': '0.4.0.0'
+    ],
+    'junit_api': [
+        'group': 'org.junit.jupiter',
+        'name': 'junit-jupiter-api',
+        'version': '5.8.2'
+    ],
+    'junit_engine': [
+        'group': 'org.junit.jupiter',
+        'name': 'junit-jupiter-engine',
+        'version': '5.8.2'
+    ],
+    'assertj': [
+        'group': 'org.assertj',
+        'name': 'assertj-core',
+        'version': '3.22.0'
+    ]
+]
