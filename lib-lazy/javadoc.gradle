@@ -1,0 +1,22 @@
+// Configure Javadoc
+javadoc {
+    options {
+        title project.artifactName
+        header "${project.artifactName} ${rootProject.version}"
+        author true
+        if (JavaVersion.current() <= JavaVersion.VERSION_1_8) {
+            links 'https://docs.oracle.com/javase/8/docs/api/'
+        } else {
+            links 'https://docs.oracle.com/en/java/javase/17/docs/api/'
+            addBooleanOption('html5', true)
+        }
+        links "https://dev.leakyabstractions.com/result/javadoc/${libs.result.version}/"
+    }
+    configure(options) {
+        tags(
+                'apiNote:a:API Note:',
+                'implNote:a:Impl Note:',
+                'implSpec:a:Impl Spec:'
+                )
+    }
+}
