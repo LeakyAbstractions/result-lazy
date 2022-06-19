@@ -54,7 +54,7 @@ _Lazy_ results encapsulate expensive operations that can be entirely omitted (as
 manipulated just like any other, but the encapsulated operation will not be executed unless there's an actual check for
 success/failure.
 
-To create a _lazy_ result we need to use static method [`Results.lazy()`][LAZY]:
+To create a _lazy_ result we need to use static method [`LazyResults.ofSupplier()`][OF_SUPPLIER]:
 
 ```java
     Result<String, Void> expensiveCalculation(AtomicLong timesExecuted) {
@@ -66,8 +66,8 @@ To create a _lazy_ result we need to use static method [`Results.lazy()`][LAZY]:
     void should_not_execute_expensive_action() {
         final AtomicLong timesExecuted = new AtomicLong();
         // Given
-        final Result<String, Void> lazy = Results
-                .lazy(() -> this.expensiveCalculation(timesExecuted));
+        final Result<String, Void> lazy = LazyResults
+                .ofSupplier(() -> this.expensiveCalculation(timesExecuted));
         // When
         final Result<Integer, Void> transformed = lazy.mapSuccess(String::length);
         // Then
@@ -100,13 +100,13 @@ as long as possible. For example, when we actually try to determine if the opera
 
 This library adheres to [Pragmatic Versioning](https://pragver.github.io/).
 
-Artifacts are available in [Maven Central](https://search.maven.org/artifact/com.leakyabstractions/result-assertj).
+Artifacts are available in [Maven Central](https://search.maven.org/artifact/com.leakyabstractions/result-lazy).
 
 
 ## Javadoc
 
 Here's the full
-[Result API documentation](https://dev.leakyabstractions.com/result-assertj/javadoc/{{ site.current_version }}/).
+[Result API documentation](https://dev.leakyabstractions.com/result-lazy/javadoc/{{ site.current_version }}/).
 
 
 ## Looking for Support?
@@ -124,4 +124,4 @@ If you'd like to contribute to this project, please [start here](CONTRIBUTING.md
 This project is governed by the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are
 expected to uphold this code.
 
-[LAZY]: https://dev.leakyabstractions.com/result-lazy/javadoc/{{ site.current_version }}/com/leakyabstractions/result/Results.html#lazy-java.util.function.Supplier-
+[OF_SUPPLIER]: https://dev.leakyabstractions.com/result-lazy/javadoc/{{ site.current_version }}/com/leakyabstractions/result/lazy/LazyResults.html#ofSupplier-java.util.function.Supplier-
