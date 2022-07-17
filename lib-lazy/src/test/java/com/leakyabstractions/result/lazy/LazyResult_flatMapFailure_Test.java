@@ -72,15 +72,15 @@ class LazyResult_flatMapFailure_Test {
         // Then
         // Left Identity Law
         assertThat(bind(unit(FAILURE), fun1))
-                .hasFailure(fun1.apply(FAILURE).getFailure())
+                .hasFailure(fun1.apply(FAILURE).getFailure().get())
                 .hasFailure(7);
         // Right Identity Law
         assertThat(result)
-                .hasFailure(bind(result, LazyResult_flatMapFailure_Test::unit).getFailure())
+                .hasFailure(bind(result, LazyResult_flatMapFailure_Test::unit).getFailure().get())
                 .hasFailure(FAILURE);
         // Associativity Law
         assertThat(bind(bind(result, fun1), fun2))
-                .hasFailure(bind(result, s -> fun2.apply(fun1.apply(s).getFailure())).getFailure())
+                .hasFailure(bind(result, s -> fun2.apply(fun1.apply(s).getFailure().get())).getFailure().get())
                 .hasFailure("70a");
     }
 

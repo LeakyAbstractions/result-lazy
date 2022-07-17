@@ -5,6 +5,8 @@ import static com.leakyabstractions.result.Results.failure;
 import static com.leakyabstractions.result.Results.success;
 import static com.leakyabstractions.result.assertj.ResultAssertions.assertThat;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,13 +23,13 @@ class LazyResult_getFailure_Test {
     private static final String FAILURE = "FAILURE";
 
     @Test
-    void should_return_null() {
+    void should_return_empty() {
         // Given
         final Result<String, Integer> lazy = new LazyResult<>(() -> success("SUCCESS"));
         // When
-        final Integer failure = lazy.getFailure();
+        final Optional<Integer> failure = lazy.getFailure();
         // Then
-        assertThat(failure).isNull();
+        assertThat(failure).isEmpty();
     }
 
     @Test
@@ -35,8 +37,8 @@ class LazyResult_getFailure_Test {
         // Given
         final Result<Integer, String> lazy = new LazyResult<>(() -> failure(FAILURE));
         // String
-        final String failure = lazy.getFailure();
+        final Optional<String> failure = lazy.getFailure();
         // Then
-        assertThat(failure).isSameAs(FAILURE);
+        assertThat(failure).containsSame(FAILURE);
     }
 }
