@@ -45,12 +45,12 @@ final class LazyResult<S, F> implements Result<S, F> {
     }
 
     @Override
-    public S getSuccess() {
+    public Optional<S> getSuccess() {
         return this.getSupplied().getSuccess();
     }
 
     @Override
-    public F getFailure() {
+    public Optional<F> getFailure() {
         return this.getSupplied().getFailure();
     }
 
@@ -77,11 +77,6 @@ final class LazyResult<S, F> implements Result<S, F> {
     @Override
     public Stream<S> stream() {
         return this.getSupplied().stream();
-    }
-
-    @Override
-    public Optional<S> optional() {
-        return this.getSupplied().optional();
     }
 
     @Override

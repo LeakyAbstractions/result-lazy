@@ -29,12 +29,12 @@ ext.libs = [
     'result': [
         'group': 'com.leakyabstractions',
         'name': 'result',
-        'version': '0.10.0.0'
+        'version': '0.11.0.0'
     ],
     'result_assertj': [
             'group': 'com.leakyabstractions',
             'name': 'result-assertj',
-            'version': '0.4.0.0'
+            'version': '0.5.0.0'
     ],
     'junit_api': [
         'group': 'org.junit.jupiter',

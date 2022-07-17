@@ -29,7 +29,6 @@
  * <li>{@link com.leakyabstractions.result.Result#hasFailure() hasFailure}</li>
  * <li>{@link com.leakyabstractions.result.Result#orElse(Object) orElse}</li>
  * <li>{@link com.leakyabstractions.result.Result#orElseMap(java.util.function.Function) orElseMap}</li>
- * <li>{@link com.leakyabstractions.result.Result#optional() optional}</li>
  * <li>{@link com.leakyabstractions.result.Result#stream() stream}</li>
  * </ul>
  * <p>
