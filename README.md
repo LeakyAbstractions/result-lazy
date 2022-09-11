@@ -3,7 +3,7 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=LeakyAbstractions_result-lazy&metric=alert_status)](https://sonarcloud.io/dashboard?id=LeakyAbstractions_result-lazy)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=LeakyAbstractions_result-lazy&metric=coverage)](https://sonarcloud.io/component_measures?id=LeakyAbstractions_result-lazy&metric=coverage&view=list)
 [![Maven Central](https://img.shields.io/endpoint?url=https://dev.leakyabstractions.com/result-lazy/badge.json&logo=java&label=maven-central&labelColor=555)](https://search.maven.org/artifact/com.leakyabstractions/result-lazy)
-[![Latest Release](https://img.shields.io/github/release/leakyabstractions/result.svg?logo=github)](https://github.com/leakyabstractions/result-lazy/releases/latest)
+[![Latest Release](https://img.shields.io/github/release/leakyabstractions/result-lazy.svg?logo=github)](https://github.com/leakyabstractions/result-lazy/releases/latest)
 [![Javadoc](https://img.shields.io/endpoint?url=https://dev.leakyabstractions.com/result-lazy/badge.json&label=javadoc&color=blue)](https://dev.leakyabstractions.com/result-lazy/javadoc/)
 
 # Lazy Results
