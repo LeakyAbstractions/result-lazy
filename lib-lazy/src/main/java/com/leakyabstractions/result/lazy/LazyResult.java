@@ -96,8 +96,13 @@ final class LazyResult<S, F> implements Result<S, F> {
     }
 
     @Override
-    public Result<S, F> filter(Predicate<? super S> predicate, Function<? super S, ? extends F> mapper) {
-        return lazily(this.isNotSupplied, () -> this.getSupplied().filter(predicate, mapper));
+    public Result<S, F> filter(Predicate<? super S> isAcceptable, Function<? super S, ? extends F> mapper) {
+        return lazily(this.isNotSupplied, () -> this.getSupplied().filter(isAcceptable, mapper));
+    }
+
+    @Override
+    public Result<S, F> fallBack(Predicate<? super F> isRecoverable, Function<? super F, ? extends S> mapper) {
+        return lazily(this.isNotSupplied, () -> this.getSupplied().fallBack(isRecoverable, mapper));
     }
 
     @Override
