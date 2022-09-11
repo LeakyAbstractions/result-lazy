@@ -40,7 +40,7 @@ import com.leakyabstractions.result.Result;
  * evaluated.
  * <p>
  * This is a functional interface whose functional method is {@link #accept(Object)} and it is expected to operate via
- * side-effects.
+ * side effects.
  *
  * @author Guillermo Calvo
  * @param <T> the type of the input to the operation
