@@ -6,10 +6,12 @@
  * supplier as long as possible. The purpose is to encapsulate an expensive operation that may be omitted if there's no
  * actual need to examine the result.
  * <p>
- * Lazy results can be <em>filtered</em> and <em>transformed</em> without actually performing the expensive operation:
+ * Lazy results can be <em>screened</em> and <em>transformed</em> without actually performing the expensive operation:
  * <ul>
  * <li>{@link com.leakyabstractions.result.Result#filter(java.util.function.Predicate, java.util.function.Function)
  * filter}</li>
+ * <li>{@link com.leakyabstractions.result.Result#fallBack(java.util.function.Predicate, java.util.function.Function)
+ * fallBack}</li>
  * <li>{@link com.leakyabstractions.result.Result#map(java.util.function.Function, java.util.function.Function)
  * map}</li>
  * <li>{@link com.leakyabstractions.result.Result#mapSuccess(java.util.function.Function) mapSuccess}</li>
