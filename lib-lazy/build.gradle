@@ -22,5 +22,4 @@ apply from: project.file('publish.gradle')
 
 dependencies {
     api libs.result
-    testImplementation libs.result_assertj
 }

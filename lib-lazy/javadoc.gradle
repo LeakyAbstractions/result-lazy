@@ -10,7 +10,7 @@ javadoc {
             links 'https://docs.oracle.com/en/java/javase/17/docs/api/'
             addBooleanOption('html5', true)
         }
-        links "https://dev.leakyabstractions.com/result/javadoc/${libs.result.version}/"
+        links "https://dev.leakyabstractions.com/result/javadoc/${libs.versions.result.asProvider().get()}/"
     }
     configure(options) {
         tags(
