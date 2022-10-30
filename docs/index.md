@@ -10,10 +10,7 @@ This library provides lazy versions of
 [Result objects](https://dev.leakyabstractions.com/result/).
 
 
-## Adding Assertions to Your Build
-
-The library requires JDK 1.8 or higher. Other than that, it has no external dependencies and it is very lightweight.
-Adding it to your build should be very easy.
+## Adding Lazy Resuls to Your Build
 
 Artifact coordinates:
 
@@ -48,6 +45,8 @@ dependencies {
     api 'com.leakyabstractions:result-lazy:{{ site.current_version }}'
 }
 ```
+
+
 ## Lazy Results
 
 _Lazy_ results encapsulate expensive operations that can be entirely omitted (as an optimization). These result can be
