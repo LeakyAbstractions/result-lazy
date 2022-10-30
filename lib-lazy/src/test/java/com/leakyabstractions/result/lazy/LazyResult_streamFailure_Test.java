@@ -13,31 +13,31 @@ import org.junit.jupiter.api.Test;
 import com.leakyabstractions.result.Result;
 
 /**
- * Tests for {@link LazyResult#stream()}.
+ * Tests for {@link LazyResult#streamFailure()}.
  *
  * @author Guillermo Calvo
  */
-@DisplayName("LazyResult stream")
-class LazyResult_stream_Test {
+@DisplayName("LazyResult streamFailure")
+class LazyResult_streamFailure_Test {
 
-    private static final String SUCCESS = "SUCCESS";
+    private static final String FAILURE = "FAILURE";
 
     @Test
     void should_return_non_empty_stream() {
         // Given
-        final Result<String, Integer> lazy = new LazyResult<>(() -> success(SUCCESS));
+        final Result<Integer, String> lazy = new LazyResult<>(() -> failure(FAILURE));
         // When
-        final Stream<String> stream = lazy.stream();
+        final Stream<String> stream = lazy.streamFailure();
         // Then
-        assertThat(stream).singleElement().isSameAs(SUCCESS);
+        assertThat(stream).singleElement().isSameAs(FAILURE);
     }
 
     @Test
     void should_return_empty_stream() {
         // Given
-        final Result<Integer, String> lazy = new LazyResult<>(() -> failure("FAILURE"));
+        final Result<String, Integer> lazy = new LazyResult<>(() -> success("SUCCESS"));
         // When
-        final Stream<Integer> stream = lazy.stream();
+        final Stream<Integer> stream = lazy.streamFailure();
         // Then
         assertThat(stream).isEmpty();
     }
