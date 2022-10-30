@@ -75,8 +75,13 @@ final class LazyResult<S, F> implements Result<S, F> {
     }
 
     @Override
-    public Stream<S> stream() {
-        return this.getSupplied().stream();
+    public Stream<S> streamSuccess() {
+        return this.getSupplied().streamSuccess();
+    }
+
+    @Override
+    public Stream<F> streamFailure() {
+        return this.getSupplied().streamFailure();
     }
 
     @Override
