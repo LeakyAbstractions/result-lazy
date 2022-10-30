@@ -31,7 +31,8 @@
  * <li>{@link com.leakyabstractions.result.Result#hasFailure() hasFailure}</li>
  * <li>{@link com.leakyabstractions.result.Result#orElse(Object) orElse}</li>
  * <li>{@link com.leakyabstractions.result.Result#orElseMap(java.util.function.Function) orElseMap}</li>
- * <li>{@link com.leakyabstractions.result.Result#stream() stream}</li>
+ * <li>{@link com.leakyabstractions.result.Result#streamSuccess() stream}</li>
+ * <li>{@link com.leakyabstractions.result.Result#streamFailure() stream}</li>
  * </ul>
  * <p>
  * Finally, conditional actions will be performed immediately unless they are
