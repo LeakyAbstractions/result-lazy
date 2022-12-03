@@ -31,9 +31,7 @@ class LazyResult_ifSuccess_Test {
         // When
         final Result<String, String> result = lazy.ifSuccess(successAction);
         // Then
-        assertThat(result)
-                .isInstanceOf(LazyResult.class)
-                .isNotSameAs(lazy);
+        assertThat(result).isInstanceOf(LazyResult.class).isNotSameAs(lazy);
     }
 
     @Test
@@ -69,10 +67,7 @@ class LazyResult_ifSuccess_Test {
         // When
         final Result<String, String> result = lazy.ifSuccess(successAction);
         // Then
-        assertThat(result)
-                .isInstanceOf(LazyResult.class)
-                .isNotSameAs(lazy)
-                .hasSuccessSameAs(SUCCESS);
+        assertThat(result).isInstanceOf(LazyResult.class).isNotSameAs(lazy).hasSuccessSameAs(SUCCESS);
         assertThat(actionPerformed).isTrue();
     }
 

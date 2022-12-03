@@ -44,9 +44,7 @@ class LazyResult_mapFailure_Test {
         // When
         final Result<String, String> result = lazy.mapFailure(mapper);
         // Then
-        assertThat(result)
-                .isInstanceOf(LazyResult.class)
-                .hasFailureSameAs(ANOTHER);
+        assertThat(result).isInstanceOf(LazyResult.class).hasFailureSameAs(ANOTHER);
     }
 
     @Test
@@ -57,9 +55,7 @@ class LazyResult_mapFailure_Test {
         // When
         final Result<String, String> result = lazy.mapFailure(mapper);
         // Then
-        assertThat(result)
-                .isInstanceOf(LazyResult.class)
-                .hasSuccessSameAs(SUCCESS);
+        assertThat(result).isInstanceOf(LazyResult.class).hasSuccessSameAs(SUCCESS);
     }
 
     @Test
@@ -71,8 +67,6 @@ class LazyResult_mapFailure_Test {
         lazy.getSupplied();
         final Result<String, String> result = lazy.mapFailure(mapper);
         // Then
-        assertThat(result)
-                .isNotInstanceOf(LazyResult.class)
-                .hasFailureSameAs(FAILURE);
+        assertThat(result).isNotInstanceOf(LazyResult.class).hasFailureSameAs(FAILURE);
     }
 }

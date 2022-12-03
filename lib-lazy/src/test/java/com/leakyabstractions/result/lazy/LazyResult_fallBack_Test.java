@@ -34,9 +34,7 @@ class LazyResult_fallBack_Test {
         // When
         final Result<Integer, String> result = lazy.fallBack(isRecoverable, mapper);
         // Then
-        assertThat(result)
-                .isInstanceOf(LazyResult.class)
-                .isNotSameAs(lazy);
+        assertThat(result).isInstanceOf(LazyResult.class).isNotSameAs(lazy);
     }
 
     @Test
@@ -49,9 +47,7 @@ class LazyResult_fallBack_Test {
         // When
         final Result<String, String> result = lazy.fallBack(isRecoverable, mapper);
         // Then
-        assertThat(result)
-                .isInstanceOf(LazyResult.class)
-                .hasSuccessSameAs(SUCCESS);
+        assertThat(result).isInstanceOf(LazyResult.class).hasSuccessSameAs(SUCCESS);
     }
 
     @Test
@@ -65,8 +61,6 @@ class LazyResult_fallBack_Test {
         lazy.getSupplied();
         final Result<String, String> result = lazy.fallBack(isRecoverable, mapper);
         // Then
-        assertThat(result)
-                .isNotInstanceOf(LazyResult.class)
-                .hasSuccessSameAs(SUCCESS);
+        assertThat(result).isNotInstanceOf(LazyResult.class).hasSuccessSameAs(SUCCESS);
     }
 }

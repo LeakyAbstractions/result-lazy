@@ -72,9 +72,9 @@ public interface LazyConsumer<T> extends Consumer<T> {
      * Lazy consumers encapsulate actions that depend on success or failure and can be safely deferred or even
      * completely ignored if a lazy result is never evaluated. They are intended to be passed as parameters to:
      * <ul>
-     * <li>{@link Result#ifSuccess(Consumer) ifSuccess}</li>
-     * <li>{@link Result#ifSuccessOrElse(Consumer, Consumer) ifSuccessOrElse}</li>
-     * <li>{@link Result#ifFailure(Consumer) ifFailure}</li>
+     * <li>{@link Result#ifSuccess(Consumer) ifSuccess}
+     * <li>{@link Result#ifSuccessOrElse(Consumer, Consumer) ifSuccessOrElse}
+     * <li>{@link Result#ifFailure(Consumer) ifFailure}
      * </ul>
      * <p>
      * These actions will execute immediately if passed to non-lazy results.

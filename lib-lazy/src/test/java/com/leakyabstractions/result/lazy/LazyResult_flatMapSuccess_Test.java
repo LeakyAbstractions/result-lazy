@@ -32,9 +32,7 @@ class LazyResult_flatMapSuccess_Test {
         // When
         final Result<String, String> result = lazy.flatMapSuccess(mapper);
         // Then
-        assertThat(result)
-                .isInstanceOf(LazyResult.class)
-                .isNotSameAs(lazy);
+        assertThat(result).isInstanceOf(LazyResult.class).isNotSameAs(lazy);
     }
 
     @Test
@@ -45,9 +43,7 @@ class LazyResult_flatMapSuccess_Test {
         // When
         final Result<String, String> result = lazy.flatMapSuccess(mapper);
         // Then
-        assertThat(result)
-                .isInstanceOf(LazyResult.class)
-                .hasFailureSameAs(FAILURE);
+        assertThat(result).isInstanceOf(LazyResult.class).hasFailureSameAs(FAILURE);
     }
 
     @Test
@@ -80,7 +76,8 @@ class LazyResult_flatMapSuccess_Test {
                 .hasSuccess(SUCCESS);
         // Associativity Law
         assertThat(bind(bind(result, fun1), fun2))
-                .hasSuccess(bind(result, s -> fun2.apply(fun1.apply(s).getSuccess().get())).getSuccess().get())
+                .hasSuccess(
+                        bind(result, s -> fun2.apply(fun1.apply(s).getSuccess().get())).getSuccess().get())
                 .hasSuccess("70a");
     }
 
@@ -88,7 +85,8 @@ class LazyResult_flatMapSuccess_Test {
         return new LazyResult<>(() -> success(value));
     }
 
-    private static <T, T2> Result<T2, Void> bind(Result<T, Void> result, Function<T, Result<T2, Void>> function) {
+    private static <T, T2> Result<T2, Void> bind(
+            Result<T, Void> result, Function<T, Result<T2, Void>> function) {
         return result.flatMapSuccess(function);
     }
 }

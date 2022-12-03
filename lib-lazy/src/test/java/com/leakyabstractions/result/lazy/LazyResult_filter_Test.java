@@ -34,9 +34,7 @@ class LazyResult_filter_Test {
         // When
         final Result<String, Integer> result = lazy.filter(isAcceptable, mapper);
         // Then
-        assertThat(result)
-                .isInstanceOf(LazyResult.class)
-                .isNotSameAs(lazy);
+        assertThat(result).isInstanceOf(LazyResult.class).isNotSameAs(lazy);
     }
 
     @Test
@@ -49,9 +47,7 @@ class LazyResult_filter_Test {
         // When
         final Result<String, String> result = lazy.filter(isAcceptable, mapper);
         // Then
-        assertThat(result)
-                .isInstanceOf(LazyResult.class)
-                .hasFailureSameAs(FAILURE);
+        assertThat(result).isInstanceOf(LazyResult.class).hasFailureSameAs(FAILURE);
     }
 
     @Test
@@ -65,8 +61,6 @@ class LazyResult_filter_Test {
         lazy.getSupplied();
         final Result<String, String> result = lazy.filter(isAcceptable, mapper);
         // Then
-        assertThat(result)
-                .isNotInstanceOf(LazyResult.class)
-                .hasFailureSameAs(FAILURE);
+        assertThat(result).isNotInstanceOf(LazyResult.class).hasFailureSameAs(FAILURE);
     }
 }

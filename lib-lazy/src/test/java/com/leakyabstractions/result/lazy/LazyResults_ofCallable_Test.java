@@ -39,9 +39,7 @@ class LazyResults_ofCallable_Test {
         // When
         final Result<String, Exception> lazy = LazyResults.ofCallable(() -> SUCCESS);
         // Then
-        assertThat(lazy)
-                .isInstanceOf(LazyResult.class)
-                .hasSuccessSameAs(SUCCESS);
+        assertThat(lazy).isInstanceOf(LazyResult.class).hasSuccessSameAs(SUCCESS);
     }
 
     @Test
@@ -49,13 +47,12 @@ class LazyResults_ofCallable_Test {
         // Given
         final Exception exception = new IllegalArgumentException("Testing");
         // When
-        final Result<String, Exception> lazy = LazyResults.ofCallable(() -> {
-            throw exception;
-        });
+        final Result<String, Exception> lazy = LazyResults.ofCallable(
+                () -> {
+                    throw exception;
+                });
         // Then
-        assertThat(lazy)
-                .isInstanceOf(LazyResult.class)
-                .hasFailureSameAs(exception);
+        assertThat(lazy).isInstanceOf(LazyResult.class).hasFailureSameAs(exception);
     }
 
     @Test
@@ -70,11 +67,13 @@ class LazyResults_ofCallable_Test {
         };
         final LazyResult<String, ?> lazy = (LazyResult<String, ?>) LazyResults.ofCallable(callable);
         // Then
-        assertThatNoException().isThrownBy(() -> {
-            lazy.getSupplied();
-            lazy.getSupplied();
-            lazy.getSupplied();
-        });
+        assertThatNoException()
+                .isThrownBy(
+                        () -> {
+                            lazy.getSupplied();
+                            lazy.getSupplied();
+                            lazy.getSupplied();
+                        });
     }
 
     @Test
@@ -106,10 +105,12 @@ class LazyResults_ofCallable_Test {
         };
         final LazyResult<String, ?> lazy = (LazyResult<String, ?>) LazyResults.ofCallable(callable);
         // Then
-        assertThatNoException().isThrownBy(() -> {
-            lazy.getSupplied();
-            lazy.getSupplied();
-            lazy.getSupplied();
-        });
+        assertThatNoException()
+                .isThrownBy(
+                        () -> {
+                            lazy.getSupplied();
+                            lazy.getSupplied();
+                            lazy.getSupplied();
+                        });
     }
 }

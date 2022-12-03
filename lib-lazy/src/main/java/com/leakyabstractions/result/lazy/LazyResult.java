@@ -86,27 +86,34 @@ final class LazyResult<S, F> implements Result<S, F> {
 
     @Override
     public Result<S, F> ifSuccess(Consumer<? super S> action) {
-        return lazily(this.isNotSupplied && action instanceof LazyConsumer, () -> this.getSupplied().ifSuccess(action));
+        return lazily(
+                this.isNotSupplied && action instanceof LazyConsumer,
+                () -> this.getSupplied().ifSuccess(action));
     }
 
     @Override
     public Result<S, F> ifSuccessOrElse(Consumer<? super S> s, Consumer<? super F> f) {
-        return lazily(this.isNotSupplied && s instanceof LazyConsumer && f instanceof LazyConsumer,
+        return lazily(
+                this.isNotSupplied && s instanceof LazyConsumer && f instanceof LazyConsumer,
                 () -> this.getSupplied().ifSuccessOrElse(s, f));
     }
 
     @Override
     public Result<S, F> ifFailure(Consumer<? super F> action) {
-        return lazily(this.isNotSupplied && action instanceof LazyConsumer, () -> this.getSupplied().ifFailure(action));
+        return lazily(
+                this.isNotSupplied && action instanceof LazyConsumer,
+                () -> this.getSupplied().ifFailure(action));
     }
 
     @Override
-    public Result<S, F> filter(Predicate<? super S> isAcceptable, Function<? super S, ? extends F> mapper) {
+    public Result<S, F> filter(
+            Predicate<? super S> isAcceptable, Function<? super S, ? extends F> mapper) {
         return lazily(this.isNotSupplied, () -> this.getSupplied().filter(isAcceptable, mapper));
     }
 
     @Override
-    public Result<S, F> fallBack(Predicate<? super F> isRecoverable, Function<? super F, ? extends S> mapper) {
+    public Result<S, F> fallBack(
+            Predicate<? super F> isRecoverable, Function<? super F, ? extends S> mapper) {
         return lazily(this.isNotSupplied, () -> this.getSupplied().fallBack(isRecoverable, mapper));
     }
 
@@ -131,16 +138,19 @@ final class LazyResult<S, F> implements Result<S, F> {
     public <S2, F2> Result<S2, F2> flatMap(
             Function<? super S, ? extends Result<? extends S2, ? extends F2>> successMapper,
             Function<? super F, ? extends Result<? extends S2, ? extends F2>> failureMapper) {
-        return lazily(this.isNotSupplied, () -> this.getSupplied().flatMap(successMapper, failureMapper));
+        return lazily(
+                this.isNotSupplied, () -> this.getSupplied().flatMap(successMapper, failureMapper));
     }
 
     @Override
-    public <S2> Result<S2, F> flatMapSuccess(Function<? super S, ? extends Result<? extends S2, ? extends F>> mapper) {
+    public <S2> Result<S2, F> flatMapSuccess(
+            Function<? super S, ? extends Result<? extends S2, ? extends F>> mapper) {
         return lazily(this.isNotSupplied, () -> this.getSupplied().flatMapSuccess(mapper));
     }
 
     @Override
-    public <F2> Result<S, F2> flatMapFailure(Function<? super F, ? extends Result<? extends S, ? extends F2>> mapper) {
+    public <F2> Result<S, F2> flatMapFailure(
+            Function<? super F, ? extends Result<? extends S, ? extends F2>> mapper) {
         return lazily(this.isNotSupplied, () -> this.getSupplied().flatMapFailure(mapper));
     }
 
@@ -158,7 +168,8 @@ final class LazyResult<S, F> implements Result<S, F> {
 
     @Override
     public String toString() {
-        return String.format("lazy-result[%s]", this.isNotSupplied ? this.supplier : this.supplied.get());
+        final Object value = this.isNotSupplied ? this.supplier : this.supplied.get();
+        return String.format("lazy-result[%s]", value);
     }
 
     Result<S, F> getSupplied() {
