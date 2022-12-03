@@ -71,14 +71,6 @@ jobs:
         cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
 
     # ================================
-    # GOOGLE JAVA FORMAT WORKAROUND
-    # ================================
-    - name: Set Gradle properties on JDK16+
-      if: ${{ matrix.jdk >= 16 }}
-      shell: bash
-      run: cat google-java-format.properties >> gradle.properties
-
-    # ================================
     # BUILD
     # ================================
     - name: Build
