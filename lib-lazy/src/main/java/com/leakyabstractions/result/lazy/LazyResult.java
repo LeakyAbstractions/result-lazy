@@ -168,8 +168,10 @@ final class LazyResult<S, F> implements Result<S, F> {
 
     @Override
     public String toString() {
-        final Object value = this.isNotSupplied ? this.supplier : this.supplied.get();
-        return String.format("lazy-result[%s]", value);
+        if (this.isNotSupplied) {
+            return "LazyResult[Not supplied]";
+        }
+        return new StringBuilder("LazyResult[").append(this.supplied.get()).append("]").toString();
     }
 
     Result<S, F> getSupplied() {

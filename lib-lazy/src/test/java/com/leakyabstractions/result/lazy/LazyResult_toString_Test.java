@@ -23,20 +23,10 @@ class LazyResult_toString_Test {
     @Test
     void should_return_expected_string_when_not_supplied() {
         // Given
-        class MySupplier implements Supplier<Result<String, Integer>> {
-            @Override
-            public Result<String, Integer> get() {
-                return fail("Should not happen");
-            }
-
-            @Override
-            public String toString() {
-                return "MySupplier";
-            }
-        }
-        final Result<String, Integer> lazy = new LazyResult<>(new MySupplier());
+        final Supplier<Result<String, Integer>> supplier = () -> fail("Should not happen");
+        final Result<String, Integer> lazy = new LazyResult<>(supplier);
         // Then
-        assertThat(lazy).hasToString("lazy-result[MySupplier]");
+        assertThat(lazy).hasToString("LazyResult[Not supplied]");
     }
 
     @Test
@@ -46,6 +36,6 @@ class LazyResult_toString_Test {
         // When
         lazy.getSupplied();
         // Then
-        assertThat(lazy).hasToString("lazy-result[success[OK]]");
+        assertThat(lazy).hasToString("LazyResult[Success[OK]]");
     }
 }
