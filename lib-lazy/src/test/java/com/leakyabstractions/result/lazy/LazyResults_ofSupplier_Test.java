@@ -54,9 +54,7 @@ class LazyResults_ofSupplier_Test {
         // When
         final Result<String, Integer> lazy = LazyResults.ofSupplier(supplier);
         // Then
-        assertThat(lazy)
-                .isInstanceOf(LazyResult.class)
-                .hasSuccessSameAs(SUCCESS);
+        assertThat(lazy).isInstanceOf(LazyResult.class).hasSuccessSameAs(SUCCESS);
     }
 
     @Test
@@ -66,9 +64,7 @@ class LazyResults_ofSupplier_Test {
         // When
         final Result<Integer, String> lazy = LazyResults.ofSupplier(supplier);
         // Then
-        assertThat(lazy)
-                .isInstanceOf(LazyResult.class)
-                .hasFailureSameAs(FAILURE);
+        assertThat(lazy).isInstanceOf(LazyResult.class).hasFailureSameAs(FAILURE);
     }
 
     @Test
@@ -83,11 +79,13 @@ class LazyResults_ofSupplier_Test {
         };
         final LazyResult<String, ?> lazy = (LazyResult<String, ?>) LazyResults.ofSupplier(supplier);
         // Then
-        assertThatNoException().isThrownBy(() -> {
-            lazy.getSupplied();
-            lazy.getSupplied();
-            lazy.getSupplied();
-        });
+        assertThatNoException()
+                .isThrownBy(
+                        () -> {
+                            lazy.getSupplied();
+                            lazy.getSupplied();
+                            lazy.getSupplied();
+                        });
     }
 
     @Test

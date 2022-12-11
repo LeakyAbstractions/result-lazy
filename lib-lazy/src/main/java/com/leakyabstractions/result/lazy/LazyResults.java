@@ -43,10 +43,10 @@ public class LazyResults {
      * Creates a new lazy result based on the given result supplier.
      *
      * @apiNote The {@code supplier} is not allowed to return {@code null} or throw any exceptions. If it does, then the
-     *     lazy result will relay the thrown exception (or {@code NullPointerException}) to its caller when/if it needs
-     *     to be evaluated. If the lazy result needs to be evaluated again, it will throw {@link NoSuchElementException}
-     *     (instead of trying to invoke {@code supplier} again). This ensures that {@code supplier} will be invoked at
-     *     most once.
+     *     lazy result will relay the thrown exception (or {@code
+     *     NullPointerException}) to its caller when/if it needs to be evaluated. If the lazy result needs to be
+     *     evaluated again, it will throw {@link NoSuchElementException} (instead of trying to invoke {@code supplier}
+     *     again). This ensures that {@code supplier} will be invoked at most once.
      * @param <S> the success type of the result
      * @param <F> the failure type of the result
      * @param supplier the function that supplies the actual result
@@ -64,11 +64,11 @@ public class LazyResults {
      * value, returns a new successful result with it; otherwise returns a new failed result with the exception thrown
      * by {@code callable}.
      *
-     * @apiNote The {@code callable} may throw an exception, but it is not allowed to return {@code null}. If it does,
-     *     then the lazy result will relay a {@code NullPointerException} to its caller when/if it needs to be
-     *     evaluated. If the lazy result needs to be evaluated again, it will throw {@link NoSuchElementException}
-     *     (instead of trying to invoke {@code callable} again). This ensures that {@code callable} will be invoked at
-     *     most once.
+     * @apiNote The {@code callable} may throw an exception, but it is not allowed to return {@code
+     *     null}. If it does, then the lazy result will relay a {@code NullPointerException} to its caller when/if it
+     *     needs to be evaluated. If the lazy result needs to be evaluated again, it will throw
+     *     {@link NoSuchElementException} (instead of trying to invoke {@code callable} again). This ensures that
+     *     {@code callable} will be invoked at most once.
      * @param callable the task that produces a success value, or throws an exception if unable to do so
      * @param <S> the success type of the result
      * @return the new lazy result

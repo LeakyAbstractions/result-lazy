@@ -9,38 +9,37 @@
  * Lazy results can be <em>screened</em> and <em>transformed</em> without actually performing the expensive operation:
  * <ul>
  * <li>{@link com.leakyabstractions.result.Result#filter(java.util.function.Predicate, java.util.function.Function)
- * filter}</li>
+ * filter}
  * <li>{@link com.leakyabstractions.result.Result#fallBack(java.util.function.Predicate, java.util.function.Function)
- * fallBack}</li>
- * <li>{@link com.leakyabstractions.result.Result#map(java.util.function.Function, java.util.function.Function)
- * map}</li>
- * <li>{@link com.leakyabstractions.result.Result#mapSuccess(java.util.function.Function) mapSuccess}</li>
- * <li>{@link com.leakyabstractions.result.Result#mapFailure(java.util.function.Function) mapFailure}</li>
+ * fallBack}
+ * <li>{@link com.leakyabstractions.result.Result#map(java.util.function.Function, java.util.function.Function) map}
+ * <li>{@link com.leakyabstractions.result.Result#mapSuccess(java.util.function.Function) mapSuccess}
+ * <li>{@link com.leakyabstractions.result.Result#mapFailure(java.util.function.Function) mapFailure}
  * <li>{@link com.leakyabstractions.result.Result#flatMap(java.util.function.Function, java.util.function.Function)
- * flatMap}</li>
- * <li>{@link com.leakyabstractions.result.Result#flatMapSuccess(java.util.function.Function) flatMapSuccess}</li>
- * <li>{@link com.leakyabstractions.result.Result#flatMapFailure(java.util.function.Function) flatMapFailure}</li>
+ * flatMap}
+ * <li>{@link com.leakyabstractions.result.Result#flatMapSuccess(java.util.function.Function) flatMapSuccess}
+ * <li>{@link com.leakyabstractions.result.Result#flatMapFailure(java.util.function.Function) flatMapFailure}
  * </ul>
  * <p>
  * On the other hand, the supplier will be invoked if any of these <em>terminal operations</em> is performed on a lazy
  * result:
  * <ul>
- * <li>{@link com.leakyabstractions.result.Result#getSuccess() getSuccess}</li>
- * <li>{@link com.leakyabstractions.result.Result#getFailure() getFailure}</li>
- * <li>{@link com.leakyabstractions.result.Result#hasSuccess() hasSuccess}</li>
- * <li>{@link com.leakyabstractions.result.Result#hasFailure() hasFailure}</li>
- * <li>{@link com.leakyabstractions.result.Result#orElse(Object) orElse}</li>
- * <li>{@link com.leakyabstractions.result.Result#orElseMap(java.util.function.Function) orElseMap}</li>
- * <li>{@link com.leakyabstractions.result.Result#streamSuccess() stream}</li>
- * <li>{@link com.leakyabstractions.result.Result#streamFailure() stream}</li>
+ * <li>{@link com.leakyabstractions.result.Result#getSuccess() getSuccess}
+ * <li>{@link com.leakyabstractions.result.Result#getFailure() getFailure}
+ * <li>{@link com.leakyabstractions.result.Result#hasSuccess() hasSuccess}
+ * <li>{@link com.leakyabstractions.result.Result#hasFailure() hasFailure}
+ * <li>{@link com.leakyabstractions.result.Result#orElse(Object) orElse}
+ * <li>{@link com.leakyabstractions.result.Result#orElseMap(java.util.function.Function) orElseMap}
+ * <li>{@link com.leakyabstractions.result.Result#streamSuccess() stream}
+ * <li>{@link com.leakyabstractions.result.Result#streamFailure() stream}
  * </ul>
  * <p>
  * Finally, conditional actions will be performed immediately unless they are
  * {@link com.leakyabstractions.result.lazy.LazyConsumer#of(java.util.function.Consumer) lazy} too:
  * <ul>
- * <li>{@link com.leakyabstractions.result.Result#ifSuccess(java.util.function.Consumer) ifSuccess}</li>
- * <li>{@link com.leakyabstractions.result.Result#ifSuccess(java.util.function.Consumer) ifSuccessOrElse}</li>
- * <li>{@link com.leakyabstractions.result.Result#ifFailure(java.util.function.Consumer) ifFailure}</li>
+ * <li>{@link com.leakyabstractions.result.Result#ifSuccess(java.util.function.Consumer) ifSuccess}
+ * <li>{@link com.leakyabstractions.result.Result#ifSuccess(java.util.function.Consumer) ifSuccessOrElse}
+ * <li>{@link com.leakyabstractions.result.Result#ifFailure(java.util.function.Consumer) ifFailure}
  * </ul>
  * <p>
  * Once a lazy result retrieves the supplied result, all future operations will be performed immediately and the
