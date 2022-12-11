@@ -1,6 +1,6 @@
 theme: jekyll-theme-leap-day
 title: Lazy Results
 description: Lazy versions of Result objects
-current_version: 0.4.0.0
+current_version: 0.4.0.1
 show_downloads: true
 logo: https://dev.leakyabstractions.com/result/result-banner.png
