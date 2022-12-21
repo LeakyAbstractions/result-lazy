@@ -10,8 +10,8 @@
  * <ul>
  * <li>{@link com.leakyabstractions.result.Result#filter(java.util.function.Predicate, java.util.function.Function)
  * filter}
- * <li>{@link com.leakyabstractions.result.Result#fallBack(java.util.function.Predicate, java.util.function.Function)
- * fallBack}
+ * <li>{@link com.leakyabstractions.result.Result#recover(java.util.function.Predicate, java.util.function.Function)
+ * recover}
  * <li>{@link com.leakyabstractions.result.Result#map(java.util.function.Function, java.util.function.Function) map}
  * <li>{@link com.leakyabstractions.result.Result#mapSuccess(java.util.function.Function) mapSuccess}
  * <li>{@link com.leakyabstractions.result.Result#mapFailure(java.util.function.Function) mapFailure}
