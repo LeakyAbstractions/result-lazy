@@ -34,7 +34,6 @@ jobs:
     # CREATE RELEASE
     # ================================
     - name: Create Release
-      id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -65,7 +64,6 @@ jobs:
     - name: Publish Javadoc to GitHub Pages
       shell: bash
       run: |
-        mkdir -p docs/javadoc/${GITHUB_REF#refs/tags/}
         cp -r lib-lazy/build/docs/javadoc docs/javadoc/${GITHUB_REF#refs/tags/}
         git config user.name "Guillermo Calvo"
         git config user.email "guillermo@guillermo.dev"
