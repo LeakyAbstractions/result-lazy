@@ -15,12 +15,12 @@ import org.junit.jupiter.api.Test;
 import com.leakyabstractions.result.Result;
 
 /**
- * Tests for {@link LazyResult#fallBack(Predicate, Function)}.
+ * Tests for {@link LazyResult#recover(Predicate, Function)}.
  *
  * @author Guillermo Calvo
  */
-@DisplayName("LazyResult fallBack")
-class LazyResult_fallBack_Test {
+@DisplayName("LazyResult recover")
+class LazyResult_recover_Test {
 
     private static final String SUCCESS = "SUCCESS";
     private static final String FAILURE = "FAILURE";
@@ -32,7 +32,7 @@ class LazyResult_fallBack_Test {
         final Predicate<String> isRecoverable = s -> fail("Should not happen");
         final Function<String, Integer> mapper = s -> fail("Should not happen");
         // When
-        final Result<Integer, String> result = lazy.fallBack(isRecoverable, mapper);
+        final Result<Integer, String> result = lazy.recover(isRecoverable, mapper);
         // Then
         assertThat(result).isInstanceOf(LazyResult.class).isNotSameAs(lazy);
     }
@@ -45,7 +45,7 @@ class LazyResult_fallBack_Test {
         final Predicate<String> isRecoverable = s -> true;
         final Function<String, String> mapper = s -> SUCCESS;
         // When
-        final Result<String, String> result = lazy.fallBack(isRecoverable, mapper);
+        final Result<String, String> result = lazy.recover(isRecoverable, mapper);
         // Then
         assertThat(result).isInstanceOf(LazyResult.class).hasSuccessSameAs(SUCCESS);
     }
@@ -59,7 +59,7 @@ class LazyResult_fallBack_Test {
         final Function<String, String> mapper = s -> SUCCESS;
         // When
         lazy.getSupplied();
-        final Result<String, String> result = lazy.fallBack(isRecoverable, mapper);
+        final Result<String, String> result = lazy.recover(isRecoverable, mapper);
         // Then
         assertThat(result).isNotInstanceOf(LazyResult.class).hasSuccessSameAs(SUCCESS);
     }
