@@ -1,8 +1,8 @@
 
 package com.leakyabstractions.result.lazy;
 
-import static com.leakyabstractions.result.Results.failure;
 import static com.leakyabstractions.result.assertj.ResultAssertions.assertThat;
+import static com.leakyabstractions.result.core.Results.failure;
 import static org.assertj.core.api.Assertions.fail;
 
 import java.util.function.Function;
@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.leakyabstractions.result.Result;
+import com.leakyabstractions.result.api.Result;
 
 /**
  * Tests for {@link LazyResult#recover(Predicate, Function)}.

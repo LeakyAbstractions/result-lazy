@@ -5,7 +5,8 @@ google-java-format-jdk8 = "1.7"
 jacoco = "0.8.10"
 junit = "5.9.3"
 nexus-publish = "1.1.0"
-result = "0.14.1.2"
+result-api = "0.1.0.2"
+result-core = "0.15.0.0"
 result-assertj = "0.8.0.0"
 sonarqube = "4.0.0.2929"
 spotless = "6.13.0"
@@ -14,11 +15,13 @@ spotless = "6.13.0"
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
-result = { module = "com.leakyabstractions:result", version.ref = "result" }
+result-api = { module = "com.leakyabstractions:result-api", version.ref = "result-api" }
+result-core = { module = "com.leakyabstractions:result", version.ref = "result-core" }
 result-assertj = { module = "com.leakyabstractions:result-assertj", version.ref = "result-assertj" }
 
 [bundles]
-test-implementation = [ "assertj-core", "junit-jupiter-api", "result-assertj" ]
+api = [ "result-api" ]
+test-implementation = [ "assertj-core", "junit-jupiter-api", "result-core", "result-assertj" ]
 test-runtime = [ "junit-jupiter-engine" ]
 
 [plugins]
