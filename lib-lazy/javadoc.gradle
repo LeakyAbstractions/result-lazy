@@ -4,13 +4,8 @@ javadoc {
         title project.artifactName
         header "${project.artifactName} ${rootProject.version}"
         author true
-        if (JavaVersion.current() <= JavaVersion.VERSION_1_8) {
-            links 'https://docs.oracle.com/javase/8/docs/api/'
-        } else {
-            links 'https://docs.oracle.com/en/java/javase/17/docs/api/'
-            addBooleanOption('html5', true)
-        }
-        links "https://dev.leakyabstractions.com/result/javadoc/${libs.versions.result.asProvider().get()}/"
+        links 'https://docs.oracle.com/javase/8/docs/api/'
+        links "https://dev.leakyabstractions.com/result-api/javadoc/${libs.versions.result.api.get()}/"
     }
     configure(options) {
         tags(

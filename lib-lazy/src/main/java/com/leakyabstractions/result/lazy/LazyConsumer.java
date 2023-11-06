@@ -20,7 +20,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.function.Consumer;
 
-import com.leakyabstractions.result.Result;
+import com.leakyabstractions.result.api.Result;
 
 /**
  * Represents an operation to be <em>lazily</em> performed with the success/failure value of a result.
