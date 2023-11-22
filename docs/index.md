@@ -163,9 +163,9 @@ See the License for the specific language governing permissions and limitations 
 [GRADLE]:                       https://gradle.org/
 [GUILLERMO]:                    https://guillermo.dev/
 [GUILLERMO_IMAGE]:              https://guillermo.dev/assets/images/thumb.png
-[JAVADOC]:                      https://dev.leakyabstractions.com/result-lazy/javadoc/
+[JAVADOC]:                      https://javadoc.io/doc/com.leakyabstractions/result-lazy/
 [MAVEN]:                        https://maven.apache.org/
-[OF_SUPPLIER]:                  https://dev.leakyabstractions.com/result-lazy/javadoc/{{ site.current_version }}/com/leakyabstractions/result/lazy/LazyResults.html#ofSupplier-java.util.function.Supplier-
+[OF_SUPPLIER]:                  https://javadoc.io/static/com.leakyabstractions/result-lazy/{{ site.current_version }}/com/leakyabstractions/result/lazy/LazyResults.html#ofSupplier-java.util.function.Supplier-
 [PRAGVER]:                      https://pragver.github.io/
 [RESULT]:                       https://dev.leakyabstractions.com/result/
 [SUPPORT]:                      https://dev.leakyabstractions.com/result/SUPPORT.html
