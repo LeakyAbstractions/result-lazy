@@ -4,3 +4,6 @@ description: Lazy versions of Result objects
 current_version: 0.6.0.0
 show_downloads: true
 logo: https://dev.leakyabstractions.com/result/result-banner.png
+exclude:
+  - gradle
+  - lib-lazy

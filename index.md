@@ -21,67 +21,40 @@ Artifact coordinates:
 - Artifact ID: `result-lazy`
 - Version: `{{ site.current_version }}`
 
-To add the dependency using [**Maven**][MAVEN], use the following:
-
-```xml
-<dependency>
-    <groupId>com.leakyabstractions</groupId>
-    <artifactId>result-lazy</artifactId>
-    <version>{{ site.current_version }}</version>
-    <scope>test</scope>
-</dependency>
-```
-
-To add the dependency using [**Gradle**][GRADLE]:
-
-```gradle
-dependencies {
-    implementation 'com.leakyabstractions:result-lazy:{{ site.current_version }}'
-}
-```
+[Maven Central Repository](https://central.sonatype.com/artifact/com.leakyabstractions/result-lazy/{{ site.current_version }})
+provides snippets for different build tools to declare this dependency.
 
 
 ## Creating Lazy Results
 
-To create a _lazy_ result we need to use static method [`LazyResults.ofSupplier()`][OF_SUPPLIER]:
+To create a lazy result, all we need to do is invoke static method [`LazyResults.ofSupplier()`][OF_SUPPLIER]:
 
 ```java
-Result<String, Exception> expensiveCalculation(AtomicLong timesExecuted) {
-    timesExecuted.getAndIncrement();
-    return Results.success("HELLO");
-}
-
-@Test
-void should_not_execute_expensive_action() {
-    final AtomicLong timesExecuted = new AtomicLong();
-    // Given
-    final Result<String, Exception> lazy = LazyResults
-            .ofSupplier(() -> this.expensiveCalculation(timesExecuted));
-    // When
-    final Result<Integer, Exception> transformed = lazy.mapSuccess(String::length);
-    // Then
-    assertThat(transformed).isNotNull();
-    assertThat(timesExecuted).hasValue(0);
-}
+{% include_relative lib-lazy/src/test/java/example/Fragments.java fragment="creation" %}
 ```
 
-Lazy results can be manipulated just like any other result; they will try to defer the invocation of the given supplier
-as long as possible. For example, when we actually try to determine if the operation succeeded or failed.
+As you can see, a supplier can simply return a fixed result. However, lazy results are more useful when they encapsulate
+an actual method that either takes a long time to execute or potentially uses up scarce resources.
 
 ```java
-@Test
-void should_execute_expensive_action() {
-    final AtomicLong timesExecuted = new AtomicLong();
-    // Given
-    final Result<String, Exception> lazy = LazyResults
-            .ofSupplier(() -> this.expensiveCalculation(timesExecuted));
-    // When
-    final Result<Integer, Exception> transformed = lazy.mapSuccess(String::length);
-    final boolean success = transformed.isSuccess();
-    // Then
-    assertThat(success).isTrue();
-    assertThat(timesExecuted).hasValue(1);
-}
+{% include_relative lib-lazy/src/test/java/example/Fragments.java fragment="expensive_calculation" %}
+```
+
+The good thing about lazy results is that they will try to defer the invocation of the given supplier as long as
+possible. You can manipulate them just like any other result, though.
+
+```java
+{% include_relative lib-lazy/src/test/java/example/Example_Test.java test="should_not_execute_expensive_action" %}
+```
+
+The previous test proves that a lazy result could be transformed and it kept behaving as a lazy result, which means that
+the expensive calculation was never executed.
+
+On the other hand, when it comes the time to evaluate whether the operation was actually successful or failed, the lazy
+result will end up invoking the method.
+
+```java
+{% include_relative lib-lazy/src/test/java/example/Example_Test.java test="should_execute_expensive_action" %}
 ```
 
 
