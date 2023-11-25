@@ -1,20 +1,64 @@
-
-[![Build Status][BADGE_BUILD_STATUS]][BUILD_STATUS]
-[![Quality Gate Status][BADGE_QUALITY_GATE]][QUALITY_GATE]
-[![Coverage][BADGE_CODE_COVERAGE]][CODE_COVERAGE]
-[![Maven Central][BADGE_ARTIFACTS]][ARTIFACTS]
-[![Latest Release][BADGE_LATEST_RELEASE]][LATEST_RELEASE]
-[![Javadoc][BADGE_JAVADOC]][JAVADOC]
+---
+title: Lazy Results
+description: Result-Lazy provides lazy versions of Result objects
+image: https://dev.leakyabstractions.com/result/result-magic-ball.png
+---
 
 # Lazy Results
 
 This library provides lazy versions of [Result objects][RESULT].
 
+_Lazy_ results encapsulate expensive operations that can be entirely omitted (as an optimization). These result can be
+manipulated just like any other, but the encapsulated operation will not be executed unless there's an actual check for
+success/failure.
 
-## Getting Started
 
-Please read the [Quick Guide][QUICK_GUIDE] to know how to add this library to your build.
+## Adding Lazy Results to Your Build
 
+Artifact coordinates:
+
+- Group ID: `com.leakyabstractions`
+- Artifact ID: `result-lazy`
+- Version: `{{ site.current_version }}`
+
+[Maven Central Repository](https://central.sonatype.com/artifact/com.leakyabstractions/result-lazy/{{ site.current_version }})
+provides snippets for different build tools to declare this dependency.
+
+
+## Creating Lazy Results
+
+To create a lazy result, all we need to do is invoke static method [`LazyResults.ofSupplier()`][OF_SUPPLIER]:
+
+```java
+{% include_relative lib-lazy/src/test/java/example/Fragments.java fragment="creation" %}
+```
+
+As you can see, a supplier can simply return a fixed result. However, lazy results are more useful when they encapsulate
+an actual method that either takes a long time to execute or potentially uses up scarce resources.
+
+```java
+{% include_relative lib-lazy/src/test/java/example/Fragments.java fragment="expensive_calculation" %}
+```
+
+The good thing about lazy results is that they will try to defer the invocation of the given supplier as long as
+possible. You can manipulate them just like any other result, though.
+
+```java
+{% include_relative lib-lazy/src/test/java/example/Example_Test.java test="should_not_execute_expensive_action" %}
+```
+
+The previous test proves that a lazy result could be transformed and it kept behaving as a lazy result, which means that
+the expensive calculation was never executed.
+
+On the other hand, when it comes the time to evaluate whether the operation was actually successful or failed, the lazy
+result will end up invoking the method.
+
+```java
+{% include_relative lib-lazy/src/test/java/example/Example_Test.java test="should_execute_expensive_action" %}
+```
+
+
+# Additional Info
 
 ## Releases
 
@@ -87,22 +131,14 @@ See the License for the specific language governing permissions and limitations 
 
 [ARTIFACTS]:                    https://search.maven.org/artifact/com.leakyabstractions/result-lazy/
 [AUTHOR]:                       https://github.com/guillermocalvo/
-[BADGE_ARTIFACTS]:              https://img.shields.io/endpoint?url=https://dev.leakyabstractions.com/result-lazy/badge.json&logo=java&label=maven-central&labelColor=555
-[BADGE_BUILD_STATUS]:           https://github.com/leakyabstractions/result-lazy/workflows/Build/badge.svg
-[BADGE_CODE_COVERAGE]:          https://sonarcloud.io/api/project_badges/measure?project=LeakyAbstractions_result-lazy&metric=coverage
-[BADGE_JAVADOC]:                https://img.shields.io/endpoint?url=https://dev.leakyabstractions.com/result-lazy/badge.json&label=javadoc&color=blue
-[BADGE_LATEST_RELEASE]:         https://img.shields.io/github/release/leakyabstractions/result-lazy.svg?logo=github
-[BADGE_QUALITY_GATE]:           https://sonarcloud.io/api/project_badges/measure?project=LeakyAbstractions_result-lazy&metric=alert_status
-[BUILD_STATUS]:                 https://github.com/LeakyAbstractions/result-lazy/actions?query=workflow%3ABuild
-[CODE_COVERAGE]:                https://sonarcloud.io/component_measures?id=LeakyAbstractions_result-lazy&metric=coverage&view=list
 [CODE_OF_CONDUCT]:              https://dev.leakyabstractions.com/result/CODE_OF_CONDUCT.html
 [CONTRIBUTING]:                 https://dev.leakyabstractions.com/result/CONTRIBUTING.html
+[GRADLE]:                       https://gradle.org/
 [GUILLERMO]:                    https://guillermo.dev/
 [GUILLERMO_IMAGE]:              https://guillermo.dev/assets/images/thumb.png
 [JAVADOC]:                      https://javadoc.io/doc/com.leakyabstractions/result-lazy/
-[LATEST_RELEASE]:               https://github.com/leakyabstractions/result-lazy/releases/latest
+[MAVEN]:                        https://maven.apache.org/
+[OF_SUPPLIER]:                  https://javadoc.io/static/com.leakyabstractions/result-lazy/{{ site.current_version }}/com/leakyabstractions/result/lazy/LazyResults.html#ofSupplier-java.util.function.Supplier-
 [PRAGVER]:                      https://pragver.github.io/
-[QUALITY_GATE]:                 https://sonarcloud.io/dashboard?id=LeakyAbstractions_result-lazy
-[QUICK_GUIDE]:                  https://dev.leakyabstractions.com/result-lazy/
 [RESULT]:                       https://dev.leakyabstractions.com/result/
 [SUPPORT]:                      https://dev.leakyabstractions.com/result/SUPPORT.html
