@@ -30,21 +30,21 @@ provides snippets for different build tools to declare this dependency.
 To create a lazy result, all we need to do is invoke static method [`LazyResults.ofSupplier()`][OF_SUPPLIER]:
 
 ```java
-{% include_relative lib-lazy/src/test/java/example/Fragments.java fragment="creation" %}
+{% include_relative result-lazy/src/test/java/example/Fragments.java fragment="creation" %}
 ```
 
 As you can see, a supplier can simply return a fixed result. However, lazy results are more useful when they encapsulate
 an actual method that either takes a long time to execute or potentially uses up scarce resources.
 
 ```java
-{% include_relative lib-lazy/src/test/java/example/Fragments.java fragment="expensive_calculation" %}
+{% include_relative result-lazy/src/test/java/example/Fragments.java fragment="expensive_calculation" %}
 ```
 
 The good thing about lazy results is that they will try to defer the invocation of the given supplier as long as
 possible. You can manipulate them just like any other result, though.
 
 ```java
-{% include_relative lib-lazy/src/test/java/example/Example_Test.java test="should_not_execute_expensive_action" %}
+{% include_relative result-lazy/src/test/java/example/Example_Test.java test="should_not_execute_expensive_action" %}
 ```
 
 The previous test proves that a lazy result could be transformed and it kept behaving as a lazy result, which means that
@@ -54,7 +54,7 @@ On the other hand, when it comes the time to evaluate whether the operation was 
 result will end up invoking the method.
 
 ```java
-{% include_relative lib-lazy/src/test/java/example/Example_Test.java test="should_execute_expensive_action" %}
+{% include_relative result-lazy/src/test/java/example/Example_Test.java test="should_execute_expensive_action" %}
 ```
 
 
