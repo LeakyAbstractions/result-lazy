@@ -1,3 +1,4 @@
 
 rootProject.name = 'result-lazy-root'
 include('result-lazy')
+include('api-compatibility')
