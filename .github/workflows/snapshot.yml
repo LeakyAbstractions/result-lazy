@@ -48,6 +48,6 @@ jobs:
         ORG_GRADLE_PROJECT_githubPassword: ${{ secrets.PUBLISH_PASSWORD }}
         ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_USERNAME }}
         ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_PASSWORD }}
-      uses: gradle/gradle-build-action@v2
+      uses: gradle/actions/setup-gradle@v3
       with:
         arguments: publish -Psnapshot --info --scan
