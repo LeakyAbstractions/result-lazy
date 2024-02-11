@@ -6,4 +6,4 @@ show_downloads: true
 logo: https://dev.leakyabstractions.com/result/result-banner.png
 exclude:
   - gradle
-  - lib-lazy
+  - result-lazy

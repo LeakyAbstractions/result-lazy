@@ -1,23 +1,24 @@
 
-# Publish a new Release
-name: Release
+# Publish a Snapshot Release
+name: Snapshot
 
 on:
   push:
-    tags: ['[0-9]+.[0-9]+.[0-9]+.[0-9]+*']
+    branches:
+    - 'main'
 
 jobs:
   build:
 
-    name: Publish
+    name: Publish snapshot
     runs-on: ubuntu-latest
 
     steps:
 
     # ================================
-    # CHECKOUT
+    # SHALLOW CLONE
     # ================================
-    - name: Checkout git tag
+    - name: Shallow clone
       uses: actions/checkout@v4
 
     # ================================
@@ -31,23 +32,22 @@ jobs:
         java-version: 21
 
     # ================================
-    # CREATE RELEASE
+    # GET CURRENT VERSION
     # ================================
-    - name: Create Release
-      uses: softprops/action-gh-release@v1
+    - name: Get current version
+      id: properties
+      run: echo "version=`./gradlew -q printProperty -Pkey=version`" >> $GITHUB_OUTPUT
 
     # ================================
     # PUBLISH
     # ================================
-    - name: Publish
+    - name: Publish snapshot
+      if: endsWith(steps.properties.outputs.version, '-SNAPSHOT')
       env:
-        ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
-        ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SIGNING_PASSWORD }}
         ORG_GRADLE_PROJECT_githubUsername: ${{ secrets.PUBLISH_USERNAME }}
         ORG_GRADLE_PROJECT_githubPassword: ${{ secrets.PUBLISH_PASSWORD }}
         ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_USERNAME }}
         ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_PASSWORD }}
-        ORG_GRADLE_PROJECT_sonatypeStagingProfileId: ${{ secrets.SONATYPE_STAGING_PROFILE_ID }}
       uses: gradle/actions/setup-gradle@v3
       with:
-        arguments: publish -Prelease --info --scan
+        arguments: publish -Psnapshot --info --scan
