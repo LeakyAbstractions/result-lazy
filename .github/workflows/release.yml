@@ -9,15 +9,15 @@ on:
 jobs:
   build:
 
-    name: Publish
+    name: Publish release version ${{ github.ref_name }}
     runs-on: ubuntu-latest
 
     steps:
 
     # ================================
-    # CHECKOUT
+    # SHALLOW CLONE
     # ================================
-    - name: Checkout git tag
+    - name: Shallow clone
       uses: actions/checkout@v4
 
     # ================================
@@ -50,4 +50,7 @@ jobs:
         ORG_GRADLE_PROJECT_sonatypeStagingProfileId: ${{ secrets.SONATYPE_STAGING_PROFILE_ID }}
       uses: gradle/actions/setup-gradle@v3
       with:
-        arguments: publish -Prelease --info --scan
+        build-scan-publish: true
+        build-scan-terms-of-service-url: https://gradle.com/terms-of-service
+        build-scan-terms-of-service-agree: yes
+        arguments: publish -Prelease --info
