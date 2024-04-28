@@ -31,12 +31,6 @@ jobs:
         java-version: 21
 
     # ================================
-    # CREATE RELEASE
-    # ================================
-    - name: Create Release
-      uses: softprops/action-gh-release@v1
-
-    # ================================
     # SET UP GRADLE
     # ================================
     - name: Set up Gradle
@@ -59,3 +53,9 @@ jobs:
         ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_PASSWORD }}
         ORG_GRADLE_PROJECT_sonatypeStagingProfileId: ${{ secrets.SONATYPE_STAGING_PROFILE_ID }}
       run: ./gradlew publish -Prelease --info
+
+    # ================================
+    # CREATE RELEASE
+    # ================================
+    - name: Create Release
+      uses: softprops/action-gh-release@v2
