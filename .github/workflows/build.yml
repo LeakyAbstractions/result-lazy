@@ -58,9 +58,9 @@ jobs:
         java-version: ${{ matrix.jdk }}
 
     # ================================
-    # SETUP GRADLE
+    # SET UP GRADLE
     # ================================
-    - name: Setup Gradle
+    - name: Set up Gradle
       uses: gradle/actions/setup-gradle@v3
       with:
         build-scan-publish: true
@@ -82,17 +82,13 @@ jobs:
     # BUILD
     # ================================
     - name: Build version ${{ steps.properties.outputs.version }}
-      uses: gradle/actions/setup-gradle@v3
-      with:
-        arguments: build -x check --info
+      run: ./gradlew build -x check --info
 
     # ================================
     # CHECK
     # ================================
     - name: Check
-      uses: gradle/actions/setup-gradle@v3
-      with:
-        arguments: check --info
+      run: ./gradlew check --info
 
     # ================================
     # COMPATIBILITY REPORT
@@ -115,17 +111,15 @@ jobs:
           ${{ runner.os }}-sonar
 
     # ================================
-    # ANALYZE
+    # ANALYZE WITH SONARCLOUD
     # ================================
-    - name: Analyze
+    - name: Analyze with SonarCloud
       if: ${{ matrix.jdk == 21 && github.event_name == 'push' }}
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: https://sonarcloud.io
         SONAR_ORGANIZATION: leakyabstractions
-      uses: gradle/actions/setup-gradle@v3
-      with:
-        arguments: sonarqube --info
+      run: ./gradlew sonarqube --info
 
     # ================================
     # PUBLISH SNAPSHOT
@@ -137,6 +131,4 @@ jobs:
         ORG_GRADLE_PROJECT_githubPassword: ${{ secrets.PUBLISH_PASSWORD }}
         ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_USERNAME }}
         ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_PASSWORD }}
-      uses: gradle/actions/setup-gradle@v3
-      with:
-        arguments: publish -Psnapshot --info
+      run: ./gradlew publish -Psnapshot --info

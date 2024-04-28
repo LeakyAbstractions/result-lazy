@@ -7,7 +7,7 @@ on:
     tags: ['[0-9]+.[0-9]+.[0-9]+.[0-9]+*']
 
 jobs:
-  build:
+  publish:
 
     name: Publish release version ${{ github.ref_name }}
     runs-on: ubuntu-latest
@@ -37,6 +37,16 @@ jobs:
       uses: softprops/action-gh-release@v1
 
     # ================================
+    # SET UP GRADLE
+    # ================================
+    - name: Set up Gradle
+      uses: gradle/actions/setup-gradle@v3
+      with:
+        build-scan-publish: true
+        build-scan-terms-of-service-url: https://gradle.com/terms-of-service
+        build-scan-terms-of-service-agree: yes
+
+    # ================================
     # PUBLISH
     # ================================
     - name: Publish
@@ -48,9 +58,4 @@ jobs:
         ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_USERNAME }}
         ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_PASSWORD }}
         ORG_GRADLE_PROJECT_sonatypeStagingProfileId: ${{ secrets.SONATYPE_STAGING_PROFILE_ID }}
-      uses: gradle/actions/setup-gradle@v3
-      with:
-        build-scan-publish: true
-        build-scan-terms-of-service-url: https://gradle.com/terms-of-service
-        build-scan-terms-of-service-agree: yes
-        arguments: publish -Prelease --info
+      run: ./gradlew publish -Prelease --info
