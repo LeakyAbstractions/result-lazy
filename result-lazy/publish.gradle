@@ -1,0 +1,74 @@
+// Package javadoc and sources
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+// Configure publishing repositories and publications
+publishing {
+    repositories {
+        if (project.hasProperty('githubUsername') && project.hasProperty('githubPassword')) {
+            maven {
+                name = 'GitHubPackages'
+                url = uri('https://maven.pkg.github.com/LeakyAbstractions/result')
+                credentials {
+                    username = project.githubUsername
+                    password = project.githubPassword
+                }
+            }
+        }
+    }
+    publications {
+        mavenRelease(MavenPublication) {
+            pom {
+                groupId         = rootProject.group
+                artifactId      = rootProject.artifactId
+                name            = rootProject.artifactName
+                description     = rootProject.description
+                version         = rootProject.version
+                url             = rootProject.homepage
+                licenses {
+                    license {
+                        name    = rootProject.licenseName
+                        url     = rootProject.licenseUrl
+                    }
+                }
+                developers {
+                    developer {
+                        id      = rootProject.developerId
+                        name    = rootProject.developerName
+                        email   = rootProject.developerEmail
+                    }
+                }
+                organization {
+                    name        = rootProject.organizationName
+                    url         = rootProject.organizationUrl
+                }
+                issueManagement {
+                    system      = rootProject.issuesSystem
+                    url         = rootProject.issuesUrl
+                }
+                ciManagement {
+                    system      = rootProject.ciSystem
+                    url         = rootProject.ciUrl
+                }
+                scm {
+                    url         = rootProject.repository
+                    connection  = rootProject.checkout
+                }
+            }
+            from(components.java)
+        }
+    }
+}
+
+signing {
+    required = project.hasProperty('signingKey') && project.hasProperty('signingPassword')
+    useInMemoryPgpKeys(project.findProperty('signingKey'), project.findProperty('signingPassword'))
+    sign publishing.publications.mavenRelease
+}
+
+if (hasProperty('publishToSonatype')) {
+    publish.finalizedBy publishToSonatype
+    publishToSonatype.finalizedBy ':closeAndReleaseSonatypeStagingRepository'
+}

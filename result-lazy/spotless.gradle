@@ -1,0 +1,15 @@
+// Configure source code formatting
+spotless {
+    java {
+        def googleJavaFormatVersion = libs.versions.google.java.format.get()
+        googleJavaFormat(googleJavaFormatVersion)
+        eclipse().configFile rootProject.file('.formatting.xml')
+        importOrderFile rootProject.file('.importorder')
+        targetExclude("**/example/*.java")
+        removeUnusedImports()
+    }
+    groovyGradle {
+        greclipse().configFile rootProject.file('.formatting.xml')
+        importOrderFile rootProject.file('.importorder')
+    }
+}
