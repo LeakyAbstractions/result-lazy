@@ -16,10 +16,11 @@
 
 package com.leakyabstractions.result.lazy;
 
-import static com.leakyabstractions.result.assertj.ResultAssertions.assertThat;
 import static com.leakyabstractions.result.core.Results.failure;
 import static com.leakyabstractions.result.core.Results.success;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL;
 
 import java.util.function.Function;
 
@@ -58,7 +59,10 @@ class LazyResult_flatMapFailure_Test {
         // When
         final Result<String, String> result = lazy.flatMapFailure(mapper);
         // Then
-        assertThat(result).isInstanceOf(LazyResult.class).hasSuccessSameAs(SUCCESS);
+        assertThat(result)
+                .isInstanceOf(LazyResult.class)
+                .extracting("success", OPTIONAL)
+                .containsSame(SUCCESS);
     }
 
     @Test
@@ -83,17 +87,20 @@ class LazyResult_flatMapFailure_Test {
         // Then
         // Left Identity Law
         assertThat(bind(unit(FAILURE), fun1))
-                .hasFailure(fun1.apply(FAILURE).getFailure().get())
-                .hasFailure(7);
+                .extracting("failure", OPTIONAL)
+                .contains(fun1.apply(FAILURE).getFailure().get())
+                .contains(7);
         // Right Identity Law
         assertThat(result)
-                .hasFailure(bind(result, LazyResult_flatMapFailure_Test::unit).getFailure().get())
-                .hasFailure(FAILURE);
+                .extracting("failure", OPTIONAL)
+                .contains(bind(result, LazyResult_flatMapFailure_Test::unit).getFailure().get())
+                .contains(FAILURE);
         // Associativity Law
         assertThat(bind(bind(result, fun1), fun2))
-                .hasFailure(
+                .extracting("failure", OPTIONAL)
+                .contains(
                         bind(result, s -> fun2.apply(fun1.apply(s).getFailure().get())).getFailure().get())
-                .hasFailure("70a");
+                .contains("70a");
     }
 
     private static <T> Result<Void, T> unit(T value) {

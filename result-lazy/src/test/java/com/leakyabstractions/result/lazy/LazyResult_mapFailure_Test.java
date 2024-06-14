@@ -16,10 +16,11 @@
 
 package com.leakyabstractions.result.lazy;
 
-import static com.leakyabstractions.result.assertj.ResultAssertions.assertThat;
 import static com.leakyabstractions.result.core.Results.failure;
 import static com.leakyabstractions.result.core.Results.success;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL;
 
 import java.util.function.Function;
 
@@ -59,7 +60,10 @@ class LazyResult_mapFailure_Test {
         // When
         final Result<String, String> result = lazy.mapFailure(mapper);
         // Then
-        assertThat(result).isInstanceOf(LazyResult.class).hasFailureSameAs(ANOTHER);
+        assertThat(result)
+                .isInstanceOf(LazyResult.class)
+                .extracting("failure", OPTIONAL)
+                .containsSame(ANOTHER);
     }
 
     @Test
@@ -70,7 +74,10 @@ class LazyResult_mapFailure_Test {
         // When
         final Result<String, String> result = lazy.mapFailure(mapper);
         // Then
-        assertThat(result).isInstanceOf(LazyResult.class).hasSuccessSameAs(SUCCESS);
+        assertThat(result)
+                .isInstanceOf(LazyResult.class)
+                .extracting("success", OPTIONAL)
+                .containsSame(SUCCESS);
     }
 
     @Test
@@ -82,6 +89,9 @@ class LazyResult_mapFailure_Test {
         lazy.getSupplied();
         final Result<String, String> result = lazy.mapFailure(mapper);
         // Then
-        assertThat(result).isNotInstanceOf(LazyResult.class).hasFailureSameAs(FAILURE);
+        assertThat(result)
+                .isNotInstanceOf(LazyResult.class)
+                .extracting("failure", OPTIONAL)
+                .containsSame(FAILURE);
     }
 }

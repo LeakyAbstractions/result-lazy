@@ -16,9 +16,10 @@
 
 package com.leakyabstractions.result.lazy;
 
-import static com.leakyabstractions.result.assertj.ResultAssertions.assertThat;
 import static com.leakyabstractions.result.core.Results.failure;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -62,7 +63,10 @@ class LazyResult_recover_Test {
         // When
         final Result<String, String> result = lazy.recover(isRecoverable, mapper);
         // Then
-        assertThat(result).isInstanceOf(LazyResult.class).hasSuccessSameAs(SUCCESS);
+        assertThat(result)
+                .isInstanceOf(LazyResult.class)
+                .extracting("success", OPTIONAL)
+                .containsSame(SUCCESS);
     }
 
     @Test
@@ -76,6 +80,9 @@ class LazyResult_recover_Test {
         lazy.getSupplied();
         final Result<String, String> result = lazy.recover(isRecoverable, mapper);
         // Then
-        assertThat(result).isNotInstanceOf(LazyResult.class).hasSuccessSameAs(SUCCESS);
+        assertThat(result)
+                .isNotInstanceOf(LazyResult.class)
+                .extracting("success", OPTIONAL)
+                .containsSame(SUCCESS);
     }
 }
