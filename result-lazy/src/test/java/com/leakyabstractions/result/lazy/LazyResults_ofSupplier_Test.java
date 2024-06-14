@@ -16,12 +16,13 @@
 
 package com.leakyabstractions.result.lazy;
 
-import static com.leakyabstractions.result.assertj.ResultAssertions.assertThat;
-import static com.leakyabstractions.result.assertj.ResultAssertions.assertThatNoException;
-import static com.leakyabstractions.result.assertj.ResultAssertions.fail;
 import static com.leakyabstractions.result.core.Results.failure;
 import static com.leakyabstractions.result.core.Results.success;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL;
 
 import java.util.NoSuchElementException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -69,7 +70,10 @@ class LazyResults_ofSupplier_Test {
         // When
         final Result<String, Integer> lazy = LazyResults.ofSupplier(supplier);
         // Then
-        assertThat(lazy).isInstanceOf(LazyResult.class).hasSuccessSameAs(SUCCESS);
+        assertThat(lazy)
+                .isInstanceOf(LazyResult.class)
+                .extracting("success", OPTIONAL)
+                .containsSame(SUCCESS);
     }
 
     @Test
@@ -79,7 +83,10 @@ class LazyResults_ofSupplier_Test {
         // When
         final Result<Integer, String> lazy = LazyResults.ofSupplier(supplier);
         // Then
-        assertThat(lazy).isInstanceOf(LazyResult.class).hasFailureSameAs(FAILURE);
+        assertThat(lazy)
+                .isInstanceOf(LazyResult.class)
+                .extracting("failure", OPTIONAL)
+                .containsSame(FAILURE);
     }
 
     @Test

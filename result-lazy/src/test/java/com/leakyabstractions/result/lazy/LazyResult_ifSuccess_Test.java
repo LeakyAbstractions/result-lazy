@@ -16,10 +16,11 @@
 
 package com.leakyabstractions.result.lazy;
 
-import static com.leakyabstractions.result.assertj.ResultAssertions.assertThat;
 import static com.leakyabstractions.result.core.Results.failure;
 import static com.leakyabstractions.result.core.Results.success;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
@@ -82,7 +83,11 @@ class LazyResult_ifSuccess_Test {
         // When
         final Result<String, String> result = lazy.ifSuccess(successAction);
         // Then
-        assertThat(result).isInstanceOf(LazyResult.class).isNotSameAs(lazy).hasSuccessSameAs(SUCCESS);
+        assertThat(result)
+                .isInstanceOf(LazyResult.class)
+                .isNotSameAs(lazy)
+                .extracting("success", OPTIONAL)
+                .containsSame(SUCCESS);
         assertThat(actionPerformed).isTrue();
     }
 

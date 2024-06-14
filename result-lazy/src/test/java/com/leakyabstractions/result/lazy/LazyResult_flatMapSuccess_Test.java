@@ -16,10 +16,11 @@
 
 package com.leakyabstractions.result.lazy;
 
-import static com.leakyabstractions.result.assertj.ResultAssertions.assertThat;
 import static com.leakyabstractions.result.core.Results.failure;
 import static com.leakyabstractions.result.core.Results.success;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL;
 
 import java.util.function.Function;
 
@@ -58,7 +59,10 @@ class LazyResult_flatMapSuccess_Test {
         // When
         final Result<String, String> result = lazy.flatMapSuccess(mapper);
         // Then
-        assertThat(result).isInstanceOf(LazyResult.class).hasFailureSameAs(FAILURE);
+        assertThat(result)
+                .isInstanceOf(LazyResult.class)
+                .extracting("failure", OPTIONAL)
+                .containsSame(FAILURE);
     }
 
     @Test
@@ -83,17 +87,20 @@ class LazyResult_flatMapSuccess_Test {
         // Then
         // Left Identity Law
         assertThat(bind(unit(SUCCESS), fun1))
-                .hasSuccess(fun1.apply(SUCCESS).getSuccess().get())
-                .hasSuccess(7);
+                .extracting("success", OPTIONAL)
+                .contains(fun1.apply(SUCCESS).getSuccess().get())
+                .contains(7);
         // Right Identity Law
         assertThat(result)
-                .hasSuccess(bind(result, LazyResult_flatMapSuccess_Test::unit).getSuccess().get())
-                .hasSuccess(SUCCESS);
+                .extracting("success", OPTIONAL)
+                .contains(bind(result, LazyResult_flatMapSuccess_Test::unit).getSuccess().get())
+                .contains(SUCCESS);
         // Associativity Law
         assertThat(bind(bind(result, fun1), fun2))
-                .hasSuccess(
+                .extracting("success", OPTIONAL)
+                .contains(
                         bind(result, s -> fun2.apply(fun1.apply(s).getSuccess().get())).getSuccess().get())
-                .hasSuccess("70a");
+                .contains("70a");
     }
 
     private static <T> Result<T, Void> unit(T value) {
