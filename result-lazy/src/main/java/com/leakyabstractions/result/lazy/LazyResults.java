@@ -27,9 +27,8 @@ import com.leakyabstractions.result.api.Result;
 /**
  * This class consists exclusively of static methods that return lazy {@link Result} instances.
  *
- * @author Guillermo Calvo
- * @see com.leakyabstractions.result
- * @see com.leakyabstractions.result.lazy
+ * @author <a href="https://guillermo.dev/">Guillermo Calvo</a>
+ * @see com.leakyabstractions.result.api.Result
  */
 public class LazyResults {
 

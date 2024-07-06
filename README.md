@@ -85,7 +85,7 @@ See the License for the specific language governing permissions and limitations 
 - **Warranty**: This library is provided without any warranty.
 
 
-[ARTIFACTS]:                    https://search.maven.org/artifact/com.leakyabstractions/result-lazy/
+[ARTIFACTS]:                    https://central.sonatype.com/artifact/com.leakyabstractions/result-lazy
 [AUTHOR]:                       https://github.com/guillermocalvo/
 [BADGE_ARTIFACTS]:              https://img.shields.io/endpoint?url=https://dev.leakyabstractions.com/result-lazy/badge.json&logo=java&label=maven-central&labelColor=555
 [BADGE_BUILD_STATUS]:           https://github.com/leakyabstractions/result-lazy/workflows/Build/badge.svg
@@ -103,6 +103,6 @@ See the License for the specific language governing permissions and limitations 
 [LATEST_RELEASE]:               https://github.com/leakyabstractions/result-lazy/releases/latest
 [PRAGVER]:                      https://pragver.github.io/
 [QUALITY_GATE]:                 https://sonarcloud.io/dashboard?id=LeakyAbstractions_result-lazy
-[QUICK_GUIDE]:                  https://dev.leakyabstractions.com/result-lazy/
-[RESULT]:                       https://dev.leakyabstractions.com/result/
+[QUICK_GUIDE]:                  https://result.leakyabstractions.com/add-ons/lazy
+[RESULT]:                       https://result.leakyabstractions.com/
 [SUPPORT]:                      https://github.com/LeakyAbstractions/.github/blob/main/SUPPORT.md

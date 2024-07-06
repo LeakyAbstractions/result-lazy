@@ -1,16 +1,15 @@
 ---
 title: Lazy Results
 description: Result-Lazy provides lazy versions of Result objects
-image: https://dev.leakyabstractions.com/result/result-magic-ball.png
+image: https://dev.leakyabstractions.com/result/result-banner.png
 ---
 
 # Lazy Results
 
 This library provides lazy versions of [Result objects][RESULT].
 
-_Lazy_ results encapsulate expensive operations that can be entirely omitted (as an optimization). These result can be
-manipulated just like any other, but the encapsulated operation will not be executed unless there's an actual check for
-success/failure.
+Lazy results optimize performance by deferring costly operations until absolutely necessary. They behave like regular
+results, but only execute the underlying operation when an actual check for success or failure is performed.
 
 
 ## Adding Lazy Results to Your Build
@@ -21,41 +20,120 @@ Artifact coordinates:
 - Artifact ID: `result-lazy`
 - Version: `{{ site.current_version }}`
 
-[Maven Central Repository](https://central.sonatype.com/artifact/com.leakyabstractions/result-lazy/{{ site.current_version }})
-provides snippets for different build tools to declare this dependency.
+[Maven Central Repository][ARTIFACTS] provides snippets for different build tools to declare this dependency.
 
 
 ## Creating Lazy Results
 
-To create a lazy result, all we need to do is invoke static method [`LazyResults.ofSupplier()`][OF_SUPPLIER]:
+We can use [`LazyResults::ofSupplier`][OF_SUPPLIER] to create a lazy result.
 
 ```java
 {% include_relative result-lazy/src/test/java/example/Fragments.java fragment="creation" %}
 ```
 
-As you can see, a supplier can simply return a fixed result. However, lazy results are more useful when they encapsulate
-an actual method that either takes a long time to execute or potentially uses up scarce resources.
+While [suppliers][SUPPLIER] can return a fixed success or failure, lazy results shine when they encapsulate
+time-consuming or resource-intensive operations.
 
 ```java
 {% include_relative result-lazy/src/test/java/example/Fragments.java fragment="expensive_calculation" %}
 ```
 
-The good thing about lazy results is that they will try to defer the invocation of the given supplier as long as
-possible. You can manipulate them just like any other result, though.
+This sample method simply increments and returns a counter for brevity. However, in a typical scenario, this would
+involve an I/O operation.
+
+
+## Skipping Expensive Calculations
+
+The advantage of lazy results is that they defer invoking the provided [`Supplier`][SUPPLIER] for as long as possible.
+Despite this, you can screen and transform them like any other result without losing their laziness.
 
 ```java
-{% include_relative result-lazy/src/test/java/example/Example_Test.java test="should_not_execute_expensive_action" %}
+{% include_relative result-lazy/src/test/java/example/Example_Test.java test="should_skip_expensive_calculation" %}
 ```
 
-The previous test proves that a lazy result could be transformed and it kept behaving as a lazy result, which means that
-the expensive calculation was never executed.
+In this example, the expensive calculation is omitted because the lazy result is never fully evaluated. This test
+demonstrates that a lazy result can be transformed while maintaining laziness, ensuring that the expensive calculation
+is deferred.
 
-On the other hand, when it comes the time to evaluate whether the operation was actually successful or failed, the lazy
-result will end up invoking the method.
+> These methods will preserve laziness:
+> 
+> - [`Result::filter`][RESULT_FILTER]
+> - [`Result::recover`][RESULT_RECOVER]
+> - [`Result::mapSuccess`][RESULT_MAP_SUCCESS]
+> - [`Result::mapFailure`][RESULT_MAP_FAILURE]
+> - [`Result::map`][RESULT_MAP]
+> - [`Result::flatMapSuccess`][RESULT_FLAT_MAP_SUCCESS]
+> - [`Result::flatMapFailure`][RESULT_FLAT_MAP_FAILURE]
+> - [`Result::flatMap`][RESULT_FLAT_MAP]
+
+
+## Triggering Result Evaluation
+
+Finally, when it's time to check whether the operation succeeds or fails, the lazy result will execute it. This is
+triggered by using any of the _terminal_ methods, such as [`Result::hasSuccess`][RESULT_HAS_SUCCESS].
 
 ```java
-{% include_relative result-lazy/src/test/java/example/Example_Test.java test="should_execute_expensive_action" %}
+{% include_relative result-lazy/src/test/java/example/Example_Test.java test="should_execute_expensive_calculation" %}
 ```
+
+Here, the expensive calculation is executed because the lazy result is finally evaluated.
+
+> Terminal methods will immediately evaluate the lazy result:
+> 
+> - [`Result::hasSuccess`][RESULT_HAS_SUCCESS]
+> - [`Result::hasFailure`][RESULT_HAS_FAILURE]
+> - [`Result::getSuccess`][RESULT_GET_SUCCESS]
+> - [`Result::getFailure`][RESULT_GET_FAILURE]
+> - [`Result::orElse`][RESULT_OR_ELSE]
+> - [`Result::orElseMap`][RESULT_OR_ELSE_MAP]
+> - [`Result::streamSuccess`][RESULT_STREAM_SUCCESS]
+> - [`Result::streamFailure`][RESULT_STREAM_FAILURE]
+
+
+## Handling Success and Failure Eagerly
+
+By default, [`Result::ifSuccess`][RESULT_IF_SUCCESS], [`Result::ifFailure`][RESULT_IF_FAILURE], and
+[`Result::ifSuccessOrElse`][RESULT_IF_SUCCESS_OR_ELSE] are treated as terminal methods. This means they eagerly evaluate
+the result and then perform an action based on its status.
+
+```java
+{% include_relative result-lazy/src/test/java/example/Example_Test.java test="should_handle_success_eagerly" %}
+```
+
+In this test, we don't explicitly _unwrap the value_ or _check the status_, but since we want to
+_consume the success value_, we need to evaluate the lazy result first.
+
+Furthermore, even if we wanted to handle the failure scenario, we would still need to evaluate the lazy result.
+
+```java
+{% include_relative result-lazy/src/test/java/example/Example_Test.java test="should_handle_failure_eagerly" %}
+```
+
+In this other test, we use [`Result::ifFailure`][RESULT_IF_FAILURE] instead of [`Result::ifSuccess`][RESULT_IF_SUCCESS].
+Since the lazy result is evaluated to a success, the failure consumer is never executed.
+
+> These methods are treated as terminal when used with regular consumer functions:
+> 
+> - [`Result::ifSuccess`][RESULT_IF_SUCCESS]
+> - [`Result::ifFailure`][RESULT_IF_FAILURE]
+> - [`Result::ifSuccessOrElse`][RESULT_IF_SUCCESS_OR_ELSE]
+
+
+## Handling Success and Failure Lazily
+
+When these conditional actions may also be skipped along with the expensive calculation, we can encapsulate them into a
+[`LazyConsumer`][LAZY_CONSUMER] instead of a regular [`Consumer`][CONSUMER]. All we need to do is to create the consumer
+using [`LazyConsumer::of`][LAZY_CONSUMER_OF]. Lazy consumers will preserve the laziness until a terminal method is
+eventually used on the result.
+
+```java
+{% include_relative result-lazy/src/test/java/example/Example_Test.java test="should_handle_success_lazily" %}
+```
+
+Here, we use a lazy consumer with [`Result::ifSuccess`][RESULT_IF_SUCCESS] so the expensive calculation is skipped
+because the lazy result is never fully evaluated.
+
+The full source code for the examples is [available on GitHub][SOURCE_CODE].
 
 
 # Additional Info
@@ -129,16 +207,40 @@ See the License for the specific language governing permissions and limitations 
 - **Warranty**: This library is provided without any warranty.
 
 
-[ARTIFACTS]:                    https://search.maven.org/artifact/com.leakyabstractions/result-lazy/
+[ARTIFACTS]:                    https://central.sonatype.com/artifact/com.leakyabstractions/result-lazy/
 [AUTHOR]:                       https://github.com/guillermocalvo/
 [CODE_OF_CONDUCT]:              https://github.com/LeakyAbstractions/.github/blob/main/CODE_OF_CONDUCT.md
+[CONSUMER]:                     https://docs.oracle.com/javase/8/docs/api/java/util/function/Consumer.html
 [CONTRIBUTING]:                 https://github.com/LeakyAbstractions/.github/blob/main/CONTRIBUTING.md
 [GRADLE]:                       https://gradle.org/
 [GUILLERMO]:                    https://guillermo.dev/
 [GUILLERMO_IMAGE]:              https://guillermo.dev/assets/images/thumb.png
 [JAVADOC]:                      https://javadoc.io/doc/com.leakyabstractions/result-lazy/
+[LAZY_CONSUMER]:                https://javadoc.io/doc/com.leakyabstractions/result-lazy/latest/com/leakyabstractions/result/lazy/LazyConsumer.html
+[LAZY_CONSUMER_OF]:             https://javadoc.io/doc/com.leakyabstractions/result-lazy/latest/com/leakyabstractions/result/lazy/LazyConsumer.html#of-java.util.function.Consumer-
 [MAVEN]:                        https://maven.apache.org/
-[OF_SUPPLIER]:                  https://javadoc.io/static/com.leakyabstractions/result-lazy/{{ site.current_version }}/com/leakyabstractions/result/lazy/LazyResults.html#ofSupplier-java.util.function.Supplier-
+[OF_SUPPLIER]:                  https://javadoc.io/doc/com.leakyabstractions/result-lazy/latest/com/leakyabstractions/result/lazy/LazyResults.html#ofSupplier-java.util.function.Supplier-
 [PRAGVER]:                      https://pragver.github.io/
-[RESULT]:                       https://dev.leakyabstractions.com/result/
+[RESULT]:                       https://result.leakyabstractions.com/
+[RESULT_FILTER]:                https://javadoc.io/doc/com.leakyabstractions/result-api/latest/com/leakyabstractions/result/api/Result.html#filter-java.util.function.Predicate-java.util.function.Function-
+[RESULT_FLAT_MAP]:              https://javadoc.io/doc/com.leakyabstractions/result-api/latest/com/leakyabstractions/result/api/Result.html#flatMap-java.util.function.Function-java.util.function.Function-
+[RESULT_FLAT_MAP_FAILURE]:      https://javadoc.io/doc/com.leakyabstractions/result-api/latest/com/leakyabstractions/result/api/Result.html#flatMapFailure-java.util.function.Function-
+[RESULT_FLAT_MAP_SUCCESS]:      https://javadoc.io/doc/com.leakyabstractions/result-api/latest/com/leakyabstractions/result/api/Result.html#flatMapSuccess-java.util.function.Function-
+[RESULT_GET_FAILURE]:           https://javadoc.io/doc/com.leakyabstractions/result-api/latest/com/leakyabstractions/result/api/Result.html#getFailure--
+[RESULT_GET_SUCCESS]:           https://javadoc.io/doc/com.leakyabstractions/result-api/latest/com/leakyabstractions/result/api/Result.html#getSuccess--
+[RESULT_HAS_FAILURE]:           https://javadoc.io/doc/com.leakyabstractions/result-api/latest/com/leakyabstractions/result/api/Result.html#hasFailure--
+[RESULT_HAS_SUCCESS]:           https://javadoc.io/doc/com.leakyabstractions/result-api/latest/com/leakyabstractions/result/api/Result.html#hasSuccess--
+[RESULT_IF_FAILURE]:            https://javadoc.io/doc/com.leakyabstractions/result-api/latest/com/leakyabstractions/result/api/Result.html#ifFailure-java.util.function.Consumer-
+[RESULT_IF_SUCCESS]:            https://javadoc.io/doc/com.leakyabstractions/result-api/latest/com/leakyabstractions/result/api/Result.html#ifSuccess-java.util.function.Consumer-
+[RESULT_IF_SUCCESS_OR_ELSE]:    https://javadoc.io/doc/com.leakyabstractions/result-api/latest/com/leakyabstractions/result/api/Result.html#ifSuccessOrElse-java.util.function.Consumer-java.util.function.Consumer-
+[RESULT_MAP]:                   https://javadoc.io/doc/com.leakyabstractions/result-api/latest/com/leakyabstractions/result/api/Result.html#map-java.util.function.Function-java.util.function.Function-
+[RESULT_MAP_FAILURE]:           https://javadoc.io/doc/com.leakyabstractions/result-api/latest/com/leakyabstractions/result/api/Result.html#mapFailure-java.util.function.Function-
+[RESULT_MAP_SUCCESS]:           https://javadoc.io/doc/com.leakyabstractions/result-api/latest/com/leakyabstractions/result/api/Result.html#mapSuccess-java.util.function.Function-
+[RESULT_OR_ELSE]:               https://javadoc.io/doc/com.leakyabstractions/result-api/latest/com/leakyabstractions/result/api/Result.html#orElse-S-
+[RESULT_OR_ELSE_MAP]:           https://javadoc.io/doc/com.leakyabstractions/result-api/latest/com/leakyabstractions/result/api/Result.html#orElseMap-java.util.function.Function-
+[RESULT_RECOVER]:               https://javadoc.io/doc/com.leakyabstractions/result-api/latest/com/leakyabstractions/result/api/Result.html#recover-java.util.function.Predicate-java.util.function.Function-
+[RESULT_STREAM_FAILURE]:        https://javadoc.io/doc/com.leakyabstractions/result-api/latest/com/leakyabstractions/result/api/Result.html#streamFailure--
+[RESULT_STREAM_SUCCESS]:        https://javadoc.io/doc/com.leakyabstractions/result-api/latest/com/leakyabstractions/result/api/Result.html#streamSuccess--
+[SOURCE_CODE]:                  https://github.com/LeakyAbstractions/result-lazy/tree/main/result-lazy/src/test/java/example
+[SUPPLIER]:                     https://docs.oracle.com/javase/8/docs/api/java/util/function/Supplier.html
 [SUPPORT]:                      https://github.com/LeakyAbstractions/.github/blob/main/SUPPORT.md

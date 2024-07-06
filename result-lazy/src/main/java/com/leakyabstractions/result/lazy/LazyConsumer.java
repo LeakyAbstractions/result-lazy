@@ -19,45 +19,42 @@ package com.leakyabstractions.result.lazy;
 import static java.util.Objects.requireNonNull;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import com.leakyabstractions.result.api.Result;
 
 /**
- * Represents an operation to be <em>lazily</em> performed with the success/failure value of a result.
+ * Represents an operation that lazily consumes the success or failure of a {@link Result}.
  * <p>
- * Unlike regular ones, lazy consumers won't force a {@link com.leakyabstractions.result.lazy lazy result} to retrieve
- * the backing result from its supplier. In other words, they may be ignored if the lazy result ends up not invoking its
- * result supplier.
+ * This functional interface is expected to operate via side effects. It should be used with
+ * {@link Result#ifSuccess(Consumer) ifSuccess}, {@link Result#ifFailure(Consumer) ifFailure} and
+ * {@link Result#ifSuccessOrElse(Consumer, Consumer) ifSuccessOrElse} when those side effects can be skipped.
  * <p>
- * Instances of objects implementing this interface are intended to be passed as parameters to
- * {@link Result#ifSuccess(Consumer)}, {@link Result#ifSuccessOrElse(Consumer, Consumer)} and
- * {@link Result#ifFailure(Consumer)} when the operation only needs to be performed if the lazy result eventually
- * retrieves an actual result from its supplier.
+ * Unlike regular {@link Consumer} instances, lazy ones won't force a lazy result to retrieve the backing result from
+ * its {@link LazyResults#ofSupplier(Supplier) supplier}. In other words, these consumers will be ignored if the lazy
+ * result never evaluates to success or failure.
  * <p>
- * If a lazy consumer is passed to a non-lazy result, or to a lazy result that has already retrieved the backing result
- * from its supplier, then the operation will be executed immediately. On the other hand, if the result object returned
- * by {@code ifSuccess}, {@code ifSuccessOrElse} or {@code ifFailure} is discarded, the lazy consumer will never be
- * evaluated.
- * <p>
- * This is a functional interface whose functional method is {@link #accept(Object)} and it is expected to operate via
- * side effects.
+ * If a lazy consumer is used with a non-lazy result, or to a lazy result that has already retrieved the backing result
+ * from its supplier, then the operation will be executed immediately.
  *
- * @author Guillermo Calvo
+ * @author <a href="https://guillermo.dev/">Guillermo Calvo</a>
  * @param <T> the type of the input to the operation
+ * @see LazyResults
  * @see LazyConsumer#of(Consumer)
  */
 @FunctionalInterface
 public interface LazyConsumer<T> extends Consumer<T> {
 
     /**
-     * Returns a composed {@code LazyConsumer} that performs, in sequence, this lazy operation followed by the
-     * {@code after} operation. If performing either operation throws an exception, it is relayed to the caller of the
-     * composed operation. If performing this operation throws an exception, the {@code after} operation will not be
-     * performed.
+     * Returns a composed lazy consumer that performs, in sequence, this lazy operation followed by the {@code after}
+     * operation.
+     * <p>
+     * If performing either operation throws an exception, it is relayed to the caller of the composed operation. If
+     * performing this operation throws an exception, the {@code after} operation will not be performed.
      *
      * @param after the operation to perform after this operation
-     * @return a composed {@code LazyConsumer} that performs in sequence this lazy operation followed by the
-     *     {@code after} operation
+     * @return a composed lazy consumer that performs in sequence this lazy operation followed by the {@code after}
+     *     operation
      * @throws NullPointerException if {@code after} is null
      */
     @Override
@@ -68,21 +65,10 @@ public interface LazyConsumer<T> extends Consumer<T> {
 
     /**
      * Creates a new lazy consumer based on a regular one.
-     * <p>
-     * Lazy consumers encapsulate actions that depend on success or failure and can be safely deferred or even
-     * completely ignored if a lazy result is never evaluated. They are intended to be passed as parameters to:
-     * <ul>
-     * <li>{@link Result#ifSuccess(Consumer) ifSuccess}
-     * <li>{@link Result#ifSuccessOrElse(Consumer, Consumer) ifSuccessOrElse}
-     * <li>{@link Result#ifFailure(Consumer) ifFailure}
-     * </ul>
-     * <p>
-     * These actions will execute immediately if passed to non-lazy results.
      *
      * @param <T> the type of the input to the action
-     * @param consumer the action to be applied to this result's success value
+     * @param consumer the action to be applied to this result's success or failure value
      * @return the new lazy consumer
-     * @see com.leakyabstractions.result.lazy
      * @see LazyResults
      */
     static <T> LazyConsumer<T> of(Consumer<? super T> consumer) {
