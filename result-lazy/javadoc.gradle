@@ -5,7 +5,7 @@ javadoc {
         header "${project.artifactName} ${rootProject.version}"
         author true
         links 'https://docs.oracle.com/javase/8/docs/api/'
-        links "https://dev.leakyabstractions.com/result-api/javadoc/${libs.versions.result.api.get()}/"
+        links 'https://javadoc.io/doc/com.leakyabstractions/result-api/latest/'
     }
     configure(options) {
         tags(
