@@ -1,5 +1,5 @@
 /**
- * Provides lazy versions of {@link com.leakyabstractions.result.api.Result} objects.
+ * Provides lazy versions of {@link com.leakyabstractions.result.api.Result Result} objects.
  * <p>
  * <img src="https://dev.leakyabstractions.com/result-api/result.svg" alt="Result Library">
  * <h2>Lazy Results</h2>
@@ -9,11 +9,11 @@
  *
  * @author <a href="https://guillermo.dev/">Guillermo Calvo</a>
  * @see <a href="https://result.leakyabstractions.com/add-ons/lazy">Quick guide</a>
+ * @see <a href="https://leanpub.com/result/">Free book</a>
  * @see <a href="https://github.com/LeakyAbstractions/result-lazy/">Source code</a>
  * @see com.leakyabstractions.result.lazy.LazyResults
  * @see com.leakyabstractions.result.lazy.LazyConsumer
- * @see com.leakyabstractions.result.api.Result
- * @see com.leakyabstractions.result.api
+ * @see com.leakyabstractions.result.api.Result Result
  */
 
 package com.leakyabstractions.result.lazy;

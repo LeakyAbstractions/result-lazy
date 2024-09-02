@@ -19,7 +19,6 @@ package com.leakyabstractions.result.lazy;
 import static java.util.Objects.requireNonNull;
 
 import java.util.NoSuchElementException;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import com.leakyabstractions.result.api.Result;
@@ -28,7 +27,8 @@ import com.leakyabstractions.result.api.Result;
  * This class consists exclusively of static methods that return lazy {@link Result} instances.
  *
  * @author <a href="https://guillermo.dev/">Guillermo Calvo</a>
- * @see com.leakyabstractions.result.api.Result
+ * @see com.leakyabstractions.result.lazy Lazy Results
+ * @see LazyResults#ofSupplier(Supplier) Creating lazy results
  */
 public class LazyResults {
 
@@ -49,7 +49,7 @@ public class LazyResults {
      * @param supplier the function that supplies the actual result
      * @return the new lazy result
      * @throws NullPointerException if {@code supplier} is {@code null}
-     * @see LazyConsumer#of(Consumer)
+     * @see LazyConsumer
      */
     public static <S, F> Result<S, F> ofSupplier(Supplier<Result<S, F>> supplier) {
         requireNonNull(supplier, "supplier");

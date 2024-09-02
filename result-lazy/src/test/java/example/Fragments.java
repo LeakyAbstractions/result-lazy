@@ -2,7 +2,7 @@
 
 package example;
 
-import static com.leakyabstractions.result.core.Results.success;
+import static com.leakyabstractions.result.test.Results.success;
 
 import com.leakyabstractions.result.api.Result;
 import com.leakyabstractions.result.lazy.LazyResults;

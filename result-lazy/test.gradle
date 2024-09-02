@@ -10,7 +10,6 @@ testing {
                 //implementation libs.bundles.test.implementation
                 implementation libs.assertj.core
                 implementation libs.junit.jupiter.api
-                implementation libs.result.core
             }
         }
     }

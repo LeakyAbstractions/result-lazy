@@ -3,8 +3,8 @@
 [![Quality Gate Status][BADGE_QUALITY_GATE]][QUALITY_GATE]
 [![Coverage][BADGE_CODE_COVERAGE]][CODE_COVERAGE]
 [![Maven Central][BADGE_ARTIFACTS]][ARTIFACTS]
-[![Latest Release][BADGE_LATEST_RELEASE]][LATEST_RELEASE]
 [![Javadoc][BADGE_JAVADOC]][JAVADOC]
+[![Free ebook][BADGE_GUIDE_BOOK]][GUIDE_BOOK]
 
 # Lazy Results
 
@@ -14,6 +14,8 @@ This library provides lazy versions of [Result objects][RESULT].
 ## Getting Started
 
 Please read the [Quick Guide][QUICK_GUIDE] to know how to add this library to your build.
+
+Also available as an ebook in multiple formats. [Download your free copy now!][GUIDE_BOOK]
 
 
 ## Releases
@@ -87,20 +89,20 @@ See the License for the specific language governing permissions and limitations 
 
 [ARTIFACTS]:                    https://central.sonatype.com/artifact/com.leakyabstractions/result-lazy
 [AUTHOR]:                       https://github.com/guillermocalvo/
-[BADGE_ARTIFACTS]:              https://img.shields.io/endpoint?url=https://dev.leakyabstractions.com/result-lazy/badge.json&logo=java&label=maven-central&labelColor=555
+[BADGE_ARTIFACTS]:              https://img.shields.io/maven-central/v/com.leakyabstractions/result-lazy
 [BADGE_BUILD_STATUS]:           https://github.com/leakyabstractions/result-lazy/workflows/Build/badge.svg
 [BADGE_CODE_COVERAGE]:          https://sonarcloud.io/api/project_badges/measure?project=LeakyAbstractions_result-lazy&metric=coverage
-[BADGE_JAVADOC]:                https://img.shields.io/endpoint?url=https://dev.leakyabstractions.com/result-lazy/badge.json&label=javadoc&color=blue
-[BADGE_LATEST_RELEASE]:         https://img.shields.io/github/release/leakyabstractions/result-lazy.svg?logo=github
+[BADGE_GUIDE_BOOK]:             https://img.shields.io/badge/Free_book-444?logo=leanpub
+[BADGE_JAVADOC]:                https://javadoc.io/badge2/com.leakyabstractions/result-lazy/javadoc.svg
 [BADGE_QUALITY_GATE]:           https://sonarcloud.io/api/project_badges/measure?project=LeakyAbstractions_result-lazy&metric=alert_status
 [BUILD_STATUS]:                 https://github.com/LeakyAbstractions/result-lazy/actions?query=workflow%3ABuild
 [CODE_COVERAGE]:                https://sonarcloud.io/component_measures?id=LeakyAbstractions_result-lazy&metric=coverage&view=list
 [CODE_OF_CONDUCT]:              https://github.com/LeakyAbstractions/.github/blob/main/CODE_OF_CONDUCT.md
 [CONTRIBUTING]:                 https://github.com/LeakyAbstractions/.github/blob/main/CONTRIBUTING.md
+[GUIDE_BOOK]:                   https://leanpub.com/result/
 [GUILLERMO]:                    https://guillermo.dev/
 [GUILLERMO_IMAGE]:              https://guillermo.dev/assets/images/thumb.png
 [JAVADOC]:                      https://javadoc.io/doc/com.leakyabstractions/result-lazy/
-[LATEST_RELEASE]:               https://github.com/leakyabstractions/result-lazy/releases/latest
 [PRAGVER]:                      https://pragver.github.io/
 [QUALITY_GATE]:                 https://sonarcloud.io/dashboard?id=LeakyAbstractions_result-lazy
 [QUICK_GUIDE]:                  https://result.leakyabstractions.com/add-ons/lazy
