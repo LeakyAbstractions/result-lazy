@@ -6,7 +6,6 @@ japicmp = "0.4.3"
 junit = "5.11.0"
 nexus-publish = "2.0.0"
 result-api = "0.1.1.0"
-result-core = "0.15.2.0"
 sonarqube = "5.1.0.4882"
 spotless = "6.25.0"
 
@@ -15,11 +14,10 @@ assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
 result-api = { module = "com.leakyabstractions:result-api", version.ref = "result-api" }
-result-core = { module = "com.leakyabstractions:result", version.ref = "result-core" }
 
 [bundles]
 api = [ "result-api" ]
-test-implementation = [ "assertj-core", "junit-jupiter-api", "result-core" ]
+test-implementation = [ "assertj-core", "junit-jupiter-api" ]
 test-runtime = [ "junit-jupiter-engine" ]
 
 [plugins]

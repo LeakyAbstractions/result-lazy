@@ -16,7 +16,7 @@
 
 package com.leakyabstractions.result.lazy;
 
-import static com.leakyabstractions.result.core.Results.success;
+import static com.leakyabstractions.result.test.Results.success;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
@@ -47,10 +47,11 @@ class LazyResult_toString_Test {
     @Test
     void should_return_expected_string_when_supplied() {
         // Given
-        final LazyResult<String, Integer> lazy = new LazyResult<>(() -> success("OK"));
+        final Result<String, Integer> supplied = success("OK");
+        final LazyResult<String, Integer> lazy = new LazyResult<>(() -> supplied);
         // When
         lazy.getSupplied();
         // Then
-        assertThat(lazy).hasToString("LazyResult[Success[OK]]");
+        assertThat(lazy).hasToString("LazyResult[%s]", supplied);
     }
 }

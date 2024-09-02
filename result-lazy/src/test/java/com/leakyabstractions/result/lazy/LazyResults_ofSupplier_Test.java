@@ -16,8 +16,8 @@
 
 package com.leakyabstractions.result.lazy;
 
-import static com.leakyabstractions.result.core.Results.failure;
-import static com.leakyabstractions.result.core.Results.success;
+import static com.leakyabstractions.result.test.Results.failure;
+import static com.leakyabstractions.result.test.Results.success;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
