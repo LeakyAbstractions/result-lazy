@@ -39,8 +39,8 @@ import com.leakyabstractions.result.api.Result;
  *
  * @author <a href="https://guillermo.dev/">Guillermo Calvo</a>
  * @param <T> the type of the input to the operation
- * @see LazyResults
- * @see LazyConsumer#of(Consumer)
+ * @see com.leakyabstractions.result.lazy Lazy Results
+ * @see LazyConsumer#of(Consumer) Creating lazy consumers
  */
 @FunctionalInterface
 public interface LazyConsumer<T> extends Consumer<T> {
