@@ -102,12 +102,11 @@ class LazyResults_ofSupplier_Test {
         final LazyResult<String, ?> lazy = (LazyResult<String, ?>) LazyResults.ofSupplier(supplier);
         // Then
         assertThatNoException()
-                .isThrownBy(
-                        () -> {
-                            lazy.getSupplied();
-                            lazy.getSupplied();
-                            lazy.getSupplied();
-                        });
+                .isThrownBy(() -> {
+                    lazy.getSupplied();
+                    lazy.getSupplied();
+                    lazy.getSupplied();
+                });
     }
 
     @Test
